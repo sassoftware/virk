@@ -18,25 +18,28 @@
     register: num_priv_ips
     tags:
       - nics
+      - privips
 
   - name: Show the number of private IPs found on the server
     debug: var=num_priv_ips.stdout
     tags:
       - nics
+      - privips
 
   - name: Assert that there only ({{max_num_priv_ips|int}}) IPs or less on the server
     assert:
       that:
         - (num_priv_ips.stdout | int) <= (max_num_priv_ips | int)
       msg:
-        - "This server seems to have {{num_priv_ips.stdout|int}} Network Interfaces."
-        - "It should only have {{max_num_priv_ips|int}}."
-        - "This will require more work to successfully deploy consul."
+        - "This server seems to have {{num_priv_ips.stdout|int}} IP addresses."
+        - "It should only have {{max_num_priv_ips|int}} at most."
+        - "This will require more work for Consul to successfully start."
         - "Please read the Deployment guide and search for the reference to the following parameter:"
         - "   consul_bind_adapter=   "
         - "Add --skip-tags skipipsfail to suppress this failure and message."
     tags:
       - nics
+      - privips
       - skipipsfail
       - skipifbelowspecs
       - skipnicssfail
