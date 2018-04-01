@@ -1,0 +1,8 @@
+---
+# Viya 3.3 services management Ansible playboks
+###############################################################################
+# Script name: viya.services.restart.yml                                      #
+###############################################################################
+
+- include: viya.services.stop.yml
+- include: viya.services.start.yml

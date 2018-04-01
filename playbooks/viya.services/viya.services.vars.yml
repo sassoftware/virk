@@ -1,0 +1,59 @@
+---
+  # This will try to assess service health at startup.
+  # It is disabled by default because it can slow down the overall startup time
+  enable_health_assessment: false
+
+  #enable_timing_stats: true
+  enable_consul_status: true
+  enable_url_display: true
+  fqdn_cmd: hostname -f
+  url_scraping_cmd: 'host=`{{fqdn_cmd}}` ; cat /etc/httpd/conf.d/proxy.conf | grep ProxyPass | grep -e "/SAS" -e "shared" | awk  "{print \$2}" | sort | uniq  | sed "s/^/https:\/\/"$host"/"'
+
+  # this option will de-register all the microservices and some stateful services in consul
+  # it can help after a brutal shutdown.
+  # it only works on stop
+  deregister_services_in_consul: false
+
+  # related to postgres becoming unhealthy
+  # it can help after a brutal shutdown.
+  fix_postgres_if_unhealthy: true
+  pool_file_path: /opt/sas/viya/config/etc/sasdatasvrc/postgres/pgpool0/pool.cdf
+
+# SASROOT: /opt/sas
+# in /root/sas_viya_playbook/group_vars/all
+#
+# # The root of the Viya deployment.
+# SAS_DEPLOYMENT_ROOT: "{{ SASROOT }}/{{ DEPLOYMENT_ID }}"
+#
+# # The location where Viya configuration(s) are installed.
+# SAS_CONFIG_ROOT: "{{ SAS_DEPLOYMENT_ROOT }}/config"
+
+
+
+  # command to obtain the list of services
+  list_of_services_cmd: ls /etc/init.d/sas-viya* | awk -F '/' '{print $NF}' | grep -vE "all|consul|vault|httpproxy|rabbitmq|sasdatasvrc|pgpoolc|cascontroller"
+
+  ## FUTURE: the data structue below will be used to control the startup sequence of stateless services more finely.
+  ## this is not implemented in the code yet.
+  known_services:
+    - "saslogon"
+    - "themes"
+  services_mappings: none
+
+
+
+  # dict: { "saslogon": { "family": "core", "order": 1 }, "identities": { "family": "notcore", "order": 2 }, "prod3": { "family": "fam2", "order": 1 } }
+  # dict:
+  #   - sas-viya-alert-track-default: { "family": "core", "order": 1 }
+  #   - identities: { "family": "notcore", "order": 2 }
+  #   - alert: { "family": "fam2", "order": 1 }
+
+
+
+# ports for health check:
+# needs to become dynamic
+  health_check_timeout: 60         # in seconds.
+  cas_port: 5570
+  consul_port: 8501
+  pgpool_port: 5430
+  postgres_port: 5432

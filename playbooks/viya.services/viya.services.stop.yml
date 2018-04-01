@@ -1,0 +1,303 @@
+---
+# Viya 3.3 services management Ansible playboks
+###############################################################################
+# Script name: viya.services.stop.yml                                         #
+#                                                                             #
+# Description: Script to stop distributed services across multiple hosts and  #
+#              handle dependencies.                                           #
+#                                                                             #
+# Author: Raphael Poumarede & Gilles Chrzaszcz, GEL                           #
+# Date: 2018-02-15                                                            #
+# Version: 1.00                                                               #
+#                                                                             #
+#-----------------------------------------------------------------------------#
+# CHANGELOG:                                                                  #
+#   2018-02-15: Raphael Poumarede & Gilles Chrzaszcz, GEL                     #
+#      init                                                                   #
+#   2018-02-24: Erwan Granger & Gilles Chrzaszcz, GEL                         #
+#      Manage unit services instead of using sas-viya-all-services            #
+#   2018-02-26: Venkata Jangal                                                #
+#      Redesign PostgreSQL services calls management                          #
+#   2018-02-28: Philip Hopkins                                                #
+#      Redesign PostgreSQL services calls management - modify services calls  #
+#      to make it dynamic to stop high availability PostgreSQL deployment.    #
+#   2018-03-01: Philip Hopkins                                                #
+#      Manage postGres and pgPool with support for clustered topologies       #
+#   2018-03-14: Benjamin Klante                                               #
+#      Fix a syntax issue in the "Stop SAS Infrastructure Data server Node    #
+#      Template Services" section (not well indented).                        #
+#   2018-03-19: Erwan Granger                                                 #
+#      use the service module for the individual microservices                #
+#      improve the names of the tasks                                         #
+#      remove timing info                                                     #
+#      change name of files, and add vars file                                #
+#                                                                             #
+#                                                                             #
+#-----------------------------------------------------------------------------#
+# DISCLAIMER:                                                                 #
+# This Ansible Playbook is provided as-is, without warranty of any kind, of   #
+# any kind, either express or implied, including, but not limited to, the     #
+# implied warranties of merchantability, fitness for a particular purpose, or #
+# non-infringement.                                                           #
+# SAS Institute shall not be liable whatsoever for any damages arising out of #
+# the use of this documentation and code, including any direct, indirect, or  #
+# consequential damages. SAS Institute reserves the right to alter or abandon #
+# use of this documentation and code at any time.                             #
+# In addition, SAS Institute will provide no support for the materials        #
+# contained herein.                                                           #
+#                                                                             #
+###############################################################################
+
+
+
+# Stop stateless services
+- hosts: sas-all
+  become: yes
+  become_user: root
+  vars_files:
+    - viya.services.vars.yml
+  tasks:
+
+    - name: "Ensure the sas-viya-all-services service is disabled"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-all-services.service
+        enabled: no
+      register: disable_viya_all_services
+      tags:
+        - disable_viya_all_services
+
+
+    - name: "Find all services defined in /etc/init.d/ not handled later"
+      shell: "{{list_of_services_cmd}}"
+      changed_when: false
+      check_mode: no
+      register: service_list_full
+      tags:
+        - microservices
+        - stateless
+
+    - name: Convert results to proper ansible variable
+      set_fact:
+        services_list:  "{{ service_list_full.stdout_lines }}"
+      tags:
+        - microservices
+
+    - name: "Ensure Microservices are all stopped"
+      any_errors_fatal: true
+      service:
+        name: "{{item}}"
+        state: stopped
+      with_items:
+        - "{{services_list}}"
+      tags:
+        - microservices
+
+
+
+# Stop CAS server
+- hosts: sas-casserver-primary
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Ensure CAS is stopped"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-cascontroller-default
+        state: stopped
+      tags:
+        - cas
+        - stateful
+
+
+# Stop HTTP proxy and httpd
+- hosts: httpproxy
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Ensure the SAS HTTP proxy service is stopped"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-httpproxy-default
+        state: stopped
+      tags:
+        - httpproxy
+        - proxy
+        - stateful
+    - name: "Ensure the Apache HTTPD Service is stopped"
+      any_errors_fatal: true
+      service:
+        name: httpd
+        state: stopped
+      tags:
+        - httpd
+        - proxy
+        - stateful
+
+# Stop SAS Infrastructure Data server (PostgreSQL)
+- hosts: pgpoolc
+  become: yes
+  become_user: root
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: "Ensure SAS Infrastructure Data Server (postgres) is stopped. Step 1/2: PgPool and postgres"
+      any_errors_fatal: true
+      service:
+        name: "sas-viya-sasdatasvrc-{{item.clusterName}}{{item.serviceName}}"
+        state: stopped
+      with_items:
+        - {clusterName: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''SERVICE_NAME''] }}', serviceName: '-pgpool0-ct-pcp'}
+        - {clusterName: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''SERVICE_NAME''] }}', serviceName: '-pgpool0-ct-pgpool'}
+        - {clusterName: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''SERVICE_NAME''] }}', serviceName: '-pgpool0-ct-pool_hba'}
+        - {clusterName: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''SERVICE_NAME''] }}', serviceName: '' }
+      tags:
+        - pgpool
+        - sasdids
+        - stateful
+
+- hosts: sasdatasvrc
+  become: yes
+  become_user: root
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: "Ensure SAS Infrastructure Data Server (postgres) is stopped. Step 2/2: postgres and pg_hba"
+      any_errors_fatal: true
+      service:
+        name: "sas-viya-sasdatasvrc-{{item.clusterName}}-node{{ item.nodeNum }}-{{item.serviceName}}"
+        state: stopped
+      with_items:
+        - {clusterName: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''SERVICE_NAME''] }}', serviceName: 'ct-postgresql', nodeNum: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''NODE_NUMBER''] }}' }
+        - {clusterName: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''SERVICE_NAME''] }}', serviceName: 'ct-pg_hba', nodeNum: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''NODE_NUMBER''] }}' }
+      tags:
+        - postgres
+        - sasdids
+        - stateful
+
+
+# Stop Message Broker server (RabbitMQ)
+- hosts: rabbitmq
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Ensure SAS Message Broker (RabbitMQ) is stopped"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-rabbitmq-server-default
+        state: stopped
+      tags:
+        - rabbitmq
+        - stateful
+
+
+# Stop Vault
+- hosts: consul
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Ensure the SAS Secret Manager (vault) is stopped"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-vault-default
+        state: stopped
+      tags:
+        - vault
+        - stateful
+
+## in certain cases, it is advantageous to be able to de-register services from consul.
+## do not ever do that to a running environment, or you will have to bounce everything.
+- hosts: sas-all
+  become: yes
+  become_user: sas
+  vars_files:
+    - viya.services.vars.yml
+  tasks:
+    # - name: "Ensure Microservices deregistration script exists"
+    #   template:
+    #     src: ./viya.services.deregister.microservices.sh.j2
+    #     dest: "/tmp/viya.services.deregister.microservices.sh"
+    #     mode: 0700
+    #     backup: yes
+    #   when: deregister_services_in_consul | bool == true
+    #   tags:
+    #     - deregisterms
+    #     - stateless
+
+    # - name: "Ensure Microservices are de-registered"
+    #   shell: "/tmp/viya.services.deregister.microservices.sh -l -c "
+    #   register: deregisterms
+    #   when: deregister_services_in_consul | bool == true
+    #   tags:
+    #     - deregisterms
+    #     - stateless
+
+
+    - name: "Ensure Microservices are de-registered from Consul"
+      script: "./viya.services.deregister.microservices.sh -l -c"
+      register: deregisterms
+      when: deregister_services_in_consul | bool == true
+      tags:
+        - deregisterms
+        - stateless
+
+
+    - name: "Display output from de-registration step"
+      debug: var=deregisterms.stdout_lines
+      when: deregister_services_in_consul | bool == true
+      tags:
+        - deregisterms
+        - stateless
+
+
+# Stop SAS Configuration (Consul) agents
+- hosts: sas-all:!consul
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Ensure the SAS Configuration (consul) Agent(s) are stopped"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-consul-default
+        state: stopped
+      tags:
+        - consulagents
+        - consul
+        - stateful
+
+
+# Stop SAS Configuration (Consul) server(s)
+- hosts: consul
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Ensure the SAS Configuration (consul) Server(s) are stopped"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-consul-default
+        state: stopped
+      tags:
+        - consulservers
+        - consul
+        - stateful
+
+- hosts: sas-all
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Capture stray processes"
+      shell: ps -ef | grep "/opt/sas/viya" | grep -v grep
+      changed_when: false
+      check_mode: no
+      register: stray_processes
+      failed_when: stray_processes.rc != 1
+      ignore_errors: true
+      tags:
+        - finalcheck
+    - name: Display Stray processes, if any
+      debug: var=stray_processes.stdout_lines
+      changed_when: false
+      check_mode: no
+      when: stray_processes.rc != 1
+      tags:
+        - finalcheck

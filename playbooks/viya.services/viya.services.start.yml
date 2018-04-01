@@ -1,0 +1,517 @@
+---
+# Viya 3.3 services management Ansible playboks
+###############################################################################
+# Script name: viya.services.start.yml                                        #
+#                                                                             #
+# Description: Script to start distributed services across multiple hosts and #
+#              handle dependencies.                                           #
+#                                                                             #
+# Author: Raphael Poumarede & Gilles Chrzaszcz, GEL                           #
+# Date: 2018-02-15                                                            #
+# Version: 1.00                                                               #
+#                                                                             #
+#-----------------------------------------------------------------------------#
+# CHANGELOG:                                                                  #
+#   2018-02-15: Raphael Poumarede & Gilles Chrzaszcz, GEL                     #
+#      init                                                                   #
+#   2018-02-24: Erwan Granger & Gilles Chrzaszcz, GEL                         #
+#      Manage unit services instead of using sas-viya-all-services            #
+#   2018-02-26: Venkata Jangal                                                #
+#      Redesign PostgreSQL services calls management - reorg services calls.  #
+#   2018-02-28: Philip Hopkins                                                #
+#      Redesign PostgreSQL services calls management - modify services calls  #
+#      to make it dynamic to start high availability PostgreSQL deployment.   #
+#   2018-03-01: Philip Hopkins                                                #
+#      Manage postGres and pgPool with support for clustered topologies       #
+#   2018-03-20: Erwan Granger                                                 #
+#      disable the all-services service                                       #
+#      wait for all machines to respond before starting                       #
+#      use the service module for the individual microservices                #
+#      improve the names of the tasks                                         #
+#      remove timing info                                                     #
+#      change name of files, and add vars file                                #
+#      added smarter (but hard-coded) health checks                           #
+#      added a check to loop until the proxy.conf file is updated, and        #
+#        at least a few web apps start responding                             #
+#                                                                             #
+#-----------------------------------------------------------------------------#
+# DISCLAIMER:                                                                 #
+# This Ansible Playbook is provided as-is, without warranty of any kind, of   #
+# any kind, either express or implied, including, but not limited to, the     #
+# implied warranties of merchantability, fitness for a particular purpose, or #
+# non-infringement.                                                           #
+# SAS Institute shall not be liable whatsoever for any damages arising out of #
+# the use of this documentation and code, including any direct, indirect, or  #
+# consequential damages. SAS Institute reserves the right to alter or abandon #
+# use of this documentation and code at any time.                             #
+# In addition, SAS Institute will provide no support for the materials        #
+# contained herein.                                                           #
+#                                                                             #
+###############################################################################
+
+
+# Don't assume the hosts are all up
+- hosts: sas-all
+  gather_facts: no
+  tasks:
+    - name: Wait for all machines to be reachable (up to 300 seconds)
+      any_errors_fatal: true
+      wait_for_connection:
+        timeout: 300
+      tags:
+        - always
+
+
+# Ensure the viya-all-services is disabled
+# Also important because it gathers all the facts from all the hosts
+- hosts: sas-all
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Ensure the sas-viya-all-services service is disabled"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-all-services.service
+        enabled: no
+      register: disable_viya_all_services
+      tags:
+        - disable_viya_all_services
+
+
+# Start SAS Configuration (Consul) server(s)
+- hosts: consul
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Ensure SAS Configuration (consul) Server(s) are started "
+      any_errors_fatal: true
+      service:
+        name: sas-viya-consul-default
+        state: started
+      register: consul_service
+      tags:
+        - consulservers
+        - consul
+        - stateful
+
+
+# Start SAS Configuration (Consul) agent(s)
+- hosts: sas-all:!consul
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Ensure SAS Configuration (consul) Agent(s) are started on all hosts"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-consul-default
+        state: started
+      tags:
+        - consulagents
+        - consul
+        - stateful
+
+# Consul health check
+- hosts: sas-all
+  become: yes
+  become_user: root
+  vars_files:
+    - viya.services.vars.yml
+  tasks:
+    - name: Confirm that SAS Configuration servers and agents are listening on port {{consul_port}}
+      any_errors_fatal: true
+      wait_for:
+        port: "{{consul_port}}"
+        delay: 0
+        timeout: "{{health_check_timeout}}"
+        msg:
+          - "We checked if consul was listening on port {{consul_port}}. "
+          - "After waiting {{health_check_timeout}} seconds, it still did not seem to be listening. "
+          - "We are therefore stopping the playbook. "
+          - "If you want to skip health checks, add  --skip-tags healthcheck to your command."
+      # the "msg" syntax is only supported with Ansible 2.4 and higher.
+      when: ansible_version.major >= 2 and ansible_version.minor >= 4
+      tags:
+        - consul
+        - stateful
+        - healthcheck
+
+
+# Start Vault
+- hosts: consul
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Ensure that SAS Secret Manager (Vault) is started on all consul machines"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-vault-default
+        state: started
+      tags:
+        - vault
+        - stateful
+
+
+
+
+# Start Message Broker server (RabbitMQ)
+- hosts: rabbitmq
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Ensure SAS Message Broker (RabbitMQ) is started"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-rabbitmq-server-default
+        state: started
+      tags:
+        - rabbitmq
+        - stateful
+
+
+# Start SAS Data server (PostgreSQL)
+- hosts: pgpoolc
+  become: yes
+  become_user: root
+  vars_files:
+    - viya.services.vars.yml
+  tasks:
+    ## these 2 tasks will fix some common issues with Postgres becoming unhealthy.
+    - name: Ensure the pool.cdf file exists
+      stat:
+        path: "{{pool_file_path}}"
+      register: poolfile
+      tags:
+        - postgres
+        - sasdids
+        - fixunhealthy
+      when: fix_postgres_if_unhealthy | bool == true
+    - name: Ensure there is nothing unhealthy about postgres
+      lineinfile:
+        dest: "{{pool_file_path}}"
+        regexp: "^node0="
+        line: "node0=healthy"
+        state: present
+        backup: yes
+      when: fix_postgres_if_unhealthy | bool == true and poolfile.stat.exists
+      tags:
+        - postgres
+        - sasdids
+        - fixunhealthy
+
+
+- hosts: sasdatasvrc
+  become: yes
+  become_user: root
+  vars_files:
+    - vars.yml
+    - viya.services.vars.yml
+  tasks:
+    - name: "Ensure SAS Infrastructure Data Server (postgres) is started. Step 1/2: pg_hba and postgresql"
+      any_errors_fatal: true
+      service:
+        name: "sas-viya-sasdatasvrc-{{item.clusterName}}-node{{ item.nodeNum }}-{{item.serviceName}}"
+        state: started
+      with_items:
+        - {clusterName: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''SERVICE_NAME''] }}', serviceName: 'ct-postgresql', nodeNum: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''NODE_NUMBER''] }}' }
+        - {clusterName: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''SERVICE_NAME''] }}', serviceName: 'ct-pg_hba', nodeNum: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''NODE_NUMBER''] }}' }
+      tags:
+        - postgres
+        - sasdids
+        - stateful
+
+- hosts: pgpoolc
+  become: yes
+  become_user: root
+  vars_files:
+    - vars.yml
+    - viya.services.vars.yml
+  tasks:
+    - name: "Start pgpool"
+      any_errors_fatal: true
+      service:
+        name: "sas-viya-sasdatasvrc-{{item.clusterName}}{{item.serviceName}}"
+        state: started
+      with_items:
+        - {clusterName: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''SERVICE_NAME''] }}', serviceName: '-pgpool0-ct-pcp'}
+        - {clusterName: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''SERVICE_NAME''] }}', serviceName: '-pgpool0-ct-pgpool'}
+        - {clusterName: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''SERVICE_NAME''] }}', serviceName: '-pgpool0-ct-pool_hba'}
+        - {clusterName: '{{ INVOCATION_VARIABLES[inventory_hostname][''sasdatasvrc''][0][''SERVICE_NAME''] }}', serviceName: '' }
+      tags:
+        - pgpool
+        - sasdids
+        - stateful
+## health check
+    - name: Confirm that SAS Infrastructure Data Server (pgpoolc) is listening on port {{pgpool_port}}
+      any_errors_fatal: true
+      wait_for:
+        port: "{{pgpool_port}}"
+        delay: 0
+        timeout: "{{health_check_timeout}}"
+        msg:
+          - "We checked if pgpool was listening on port {{pgpool_port}}."
+          - "After waiting {{health_check_timeout}} seconds, it still did not seem to be listening."
+          - "We are therefore stopping the playbook. "
+          - "If you want to skip health checks, add  --skip-tags healthcheck to your command. "
+      # the "msg" syntax is only supported with Ansible 2.4 and higher.
+      when: ansible_version.major >= 2 and ansible_version.minor >= 4
+      tags:
+        - pgpool
+        - sasdids
+        - stateful
+        - healthcheck
+
+
+- hosts: sasdatasvrc
+  become: yes
+  become_user: root
+  vars_files:
+    - vars.yml
+    - viya.services.vars.yml
+  tasks:
+## health check
+    - name: Confirm that SAS Infrastructure Data Server (postgres) is listening on port {{postgres_port}}
+      any_errors_fatal: true
+      wait_for:
+        port: "{{postgres_port}}"
+        delay: 0
+        timeout: "{{health_check_timeout}}"
+        msg:
+          - "We checked if postgres was listening on port {{postgres_port}}."
+          - "After waiting {{health_check_timeout}} seconds, it still did not seem to be listening."
+          - "We are therefore stopping the playbook. "
+          - "If you want to skip health checks, add  --skip-tags healthcheck to your command. "
+      # the "msg" syntax is only supported with Ansible 2.4 and higher.
+      when: ansible_version.major >= 2 and ansible_version.minor >= 4
+      tags:
+        - postgres
+        - sasdids
+        - stateful
+        - healthcheck
+
+
+
+# Start HTTP proxy
+- hosts: httpproxy
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Ensure SAS HTTP proxy is started"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-httpproxy-default
+        state: started
+      tags:
+        - httpproxy
+        - proxy
+        - stateful
+    - name: "Ensure Apache HTTPD is started"
+      any_errors_fatal: true
+      service:
+        name: httpd
+        state: started
+      tags:
+        - httpd
+        - proxy
+        - stateful
+
+
+
+# Start CAS server
+- hosts: sas-casserver-primary
+  become: yes
+  become_user: root
+  vars_files:
+    - viya.services.vars.yml
+
+  tasks:
+    - name: "Ensure CAS is started"
+      any_errors_fatal: true
+      service:
+        name: sas-viya-cascontroller-default
+        state: started
+      tags:
+        - cas
+        - stateful
+
+    - name: Confirm that CAS listening on port {{cas_port}}
+      any_errors_fatal: true
+      wait_for:
+        port: "{{cas_port}}"
+        delay: 0
+        timeout: "{{health_check_timeout}}"
+        msg:
+          - "We checked if CAS was listening on port {{cas_port}}."
+          - "After waiting {{health_check_timeout}} seconds, it still did not seem to be listening."
+          - "We are therefore stopping the playbook. "
+          - "If you want to skip health checks, add  --skip-tags healthcheck to your command. "
+      # the "msg" syntax is only supported with Ansible 2.4 and higher.
+      when: ansible_version.major >= 2 and ansible_version.minor >= 4
+      tags:
+        - cas
+        - stateful
+        - healthcheck
+
+# Start remaining servers, services, and micro-services
+- hosts: sas-all
+  become: yes
+  become_user: root
+  vars_files:
+    - viya.services.vars.yml
+
+  tasks:
+    - name: "Find all services defined in /etc/init.d/ not previously handled"
+      shell: "{{list_of_services_cmd}}"
+      changed_when: false
+      check_mode: no
+      register: service_list_full
+      tags:
+        - microservices
+        - stateless
+        - dev
+
+    - name: Convert results to proper ansible variable
+      set_fact:
+        services_list:  "{{ service_list_full.stdout_lines }}"
+      tags:
+        - microservices
+        - stateless
+        - dev
+    - name: Create more lists
+      set_fact:
+        stage1_services_list:  "{{ services_list | select('search', '(saslogon|identities|themes|environmentmanager|appregistry|ops-agent|themes)') | list }}"
+        stage2_services_list:  "{{ services_list | select('search', '(visualanalytics||themes)') | list }}"
+      tags:
+        - microservices
+        - stateless
+        - dev
+
+
+
+    - name: "Ensure Stage 1 Microservices are started"
+      any_errors_fatal: true
+      service:
+        name: "{{item}}"
+        state: started
+      with_items:
+        - "{{stage1_services_list}}"
+      tags:
+        - microservices
+        - stateless
+        - stage1
+
+    - name: "Ensure Stage 2 Microservices are started"
+      any_errors_fatal: true
+      service:
+        name: "{{item}}"
+        state: started
+      with_items:
+        - "{{stage2_services_list}}"
+      tags:
+        - microservices
+        - stateless
+        - stage2
+
+
+    - name: "Ensure all Microservices are started"
+      any_errors_fatal: true
+      service:
+        name: "{{item}}"
+        state: started
+      with_items:
+        - "{{services_list}}"
+      tags:
+        - microservices
+        - stateless
+
+## display useful stuff for the user
+    - name: Capture all statuses from SAS Configuration Server (Consul)
+      shell: /etc/init.d/sas-viya-all-services status
+      check_mode: no
+      changed_when: false
+      register: allservicesstatus
+      when: enable_consul_status | bool == true
+      tags:
+        - status
+    - name: Display the status from SAS Configuration Server (Consul)
+      debug: var=allservicesstatus.stdout_lines
+      when: enable_consul_status | bool == true
+      tags:
+        - status
+
+
+
+
+## display useful stuff for the user
+- hosts: httpproxy
+  become: yes
+  become_user: root
+  vars_files:
+    - viya.services.vars.yml
+
+  tasks:
+    - name: Capture URLs from the Apache HTTP Proxy. Looping until SASEnvironmentManager and SASLogon are available there.
+      shell: "{{url_scraping_cmd}}"
+      changed_when: false
+      check_mode: no
+      register: url_list
+      until: url_list.stdout.find("SASEnvironmentManager") != -1 and url_list.stdout.find("SASLogon") != -1
+      retries: 1000
+      delay: 5
+      when: not ansible_check_mode
+      tags:
+        - urls
+
+
+
+    - name: Display useful information about URLs
+      debug:
+        msg:
+         - Your services have all been started.
+         - It may take a few more minutes for the last ones to fully come up.
+         - "Once the environment is up, you can access it using the following URLs:"
+         - "{{url_list.stdout_lines}}"
+         - in 10 seconds, we'll try to auto-validate these URLs.
+         - Cancel anytime, with Ctrl-c
+         - "If you want to review this list as the environment starts, re-run the following:"
+         - ansible-playbook viya.services.start.yml --tags urls
+      when: not ansible_check_mode
+      tags:
+        - urls
+
+
+    - name: "Pausing long enough for you to read the message above."
+      pause:
+        seconds: 20
+      when: not ansible_check_mode
+      tags:
+        - urls
+
+
+    - name: Looping to validate the Environment's URLs. Ctrl-c to stop
+      uri:
+        url: "{{item}}"
+        status_code: 401,200
+        validate_certs: no
+      register: response
+      until: response.status == 401 or response.status == 200
+      retries: 200
+      delay: 5
+      when: not ansible_check_mode
+      with_items:
+        - "{{url_list.stdout_lines}}"
+      tags:
+        - urls
+    # - name: display
+    #   debug: var=response.item.results.status
+    #   tags:
+    #     - urls
+
+    - name: There might now be more URLs ready
+      debug:
+        msg:
+         - You can re-run
+         -     ansible-playbook viya.services.start.yml --tags urls
+         - To see if more URLs show up.
+      when: not ansible_check_mode
+      tags:
+        - urls
