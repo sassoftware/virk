@@ -4,7 +4,7 @@
   enable_health_assessment: false
 
   #enable_timing_stats: true
-  enable_consul_status: true
+  enable_consul_status: false
   enable_url_display: true
   fqdn_cmd: hostname -f
   url_scraping_cmd: 'host=`{{fqdn_cmd}}` ; cat /etc/httpd/conf.d/proxy.conf | grep ProxyPass | grep -e "/SAS" -e "shared" | awk  "{print \$2}" | sort | uniq  | sed "s/^/https:\/\/"$host"/"'
