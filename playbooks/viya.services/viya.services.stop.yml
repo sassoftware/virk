@@ -61,7 +61,7 @@
     - name: "Ensure the sas-viya-all-services service is disabled"
       any_errors_fatal: true
       service:
-        name: sas-viya-all-services.service
+        name: sas-viya-all-services
         enabled: no
       register: disable_viya_all_services
       tags:
