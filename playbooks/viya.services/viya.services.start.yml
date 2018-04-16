@@ -379,7 +379,7 @@
     - name: Create more lists
       set_fact:
         stage1_services_list:  "{{ services_list | select('search', '(saslogon|identities|themes|environmentmanager|appregistry|ops-agent|themes)') | list }}"
-        stage2_services_list:  "{{ services_list | select('search', '(visualanalytics|themes)') | list }}"
+        stage2_services_list:  "{{ services_list | select('search', '(visualanalytics|sasreportviewer)') | list }}"
       tags:
         - microservices
         - stateless
