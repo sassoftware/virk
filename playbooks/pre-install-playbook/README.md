@@ -6,7 +6,7 @@
 
 ## Pre-requisites for running the pre-installation playbook
 Before running this script you will need to:
-* Install ansible. Version 2.3.2 is recommended for deployment.
+* Install ansible. Version 2.3.2 or above is recommended for deployment.
 * Make sure the user has sudo prvilileges
 * Be aware that the scripts makes modifications to the system when not run with the --check option.
 * The base inventory file that we've provided contains only localhost and will only run on the machine on which it was installed. To run the playbook against multiple machines you can update the inventory file to include additional hosts. See [Ansible Documentation](http://docs.ansible.com/ansible/latest/intro_inventory.html) for how-to.
@@ -37,21 +37,3 @@ Example running only a specific check or configuration:
   ```
   ansible-playbook viya_pre_install_playbook.yml -i inventory --tags memory_check
   ```
-These specific tags run the code that perform the pre-install checks and changes:
-* ping
-* os_name_check
-* os_version_check
-* memory_check
-* cpu_check
-* storage_check
-* third_party_check
-* hostname_length_check
-* yum_cache_config
-* ssh_maxstartups_config
-* required_packages_config
-* selinux_config
-* user_and_group_config
-* ulimit_config
-* network_and_bandwidth_check
-* os_firewall_config
-* ntp_config
