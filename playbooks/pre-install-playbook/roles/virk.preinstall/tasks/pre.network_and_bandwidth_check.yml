@@ -86,8 +86,8 @@
 
 ## DNS and Addressing
 - name: Various Hostname check
-        - (hostname ; hostname -a ; hostname -A ; hostname -f ; hostname -i ; hostname -I)
-  shell: "hostname ; hostname -a ; hostname -A ; hostname -f ; hostname -i ; hostname -I"
+        - (hostname ; hostname -s ; hostname -f ; hostname -i)
+  shell: "hostname ; hostname -s; hostname -f ; hostname -i"
   check_mode: no
   changed_when: False
   register: various_hostname_test
@@ -95,7 +95,7 @@
   tags:
     - hostname
 
-- name: Show the result of 'hostname ; hostname -a ; hostname -A ; hostname -f ; hostname -i ; hostname -I'
+- name: Show the result of 'hostname ; hostname -s ; hostname -f ; hostname -i'
   debug: var=various_hostname_test.stdout_lines
   tags:
     - hostname

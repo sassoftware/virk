@@ -24,12 +24,12 @@
   - name: Show the detailed cpu info from /proc/cpuinfo
     debug: var=detailedcpuinfo.stdout_lines
 
-  - name: Querying number of CPUs from /proc/cpuinfo
+  - name: Querying number of CPU cores
     shell: "{{core_count_command}}"
     changed_when: False
     check_mode: no
     register: cpuinfo
-  - name: Show the number of CPUs
+  - name: Show the number of CPU cores
     debug: var=cpuinfo.stdout
 
   - name: Assert that there are enough ({{min_cores_num}}) cores on the server

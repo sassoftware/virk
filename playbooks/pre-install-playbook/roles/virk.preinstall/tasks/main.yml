@@ -9,6 +9,7 @@
 - include: pre.yum_cache_config.yml
 - include: pre.required_packages_config.yml
 - include: pre.ssh_maxstartups_config.yml
+- include: pre.max_os_tasks_config.yml
 - include: pre.user_and_group_config.yml
 - include: pre.selinux_config.yml
 - include: pre.ulimit_config.yml

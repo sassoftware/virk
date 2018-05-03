@@ -8,6 +8,28 @@
 #   make it fail
 #
 
+- name: Check if SELinux config file exists (signifying SELinux is installed)
+  stat:
+    path: /etc/selinux/config
+  register: config_file
+  tags:
+    - prereq
+    - selinux_config
+
+- debug:
+    msg: "/etc/selinux/config doesn't exist."
+  when: not config_file.stat.exists
+  tags:
+    - prereq
+    - selinux_config
+
+- debug:
+    msg: "/etc/selinux/config exists."
+  when: config_file.stat.exists
+  tags:
+    - prereq
+    - selinux_config
+
 - block:
   ## block start
 
@@ -37,6 +59,7 @@
     when: selinuxstatus.stdout is defined and  selinuxstatus.stdout == 'Enforcing'
     ignore_errors: yes
 
+  when: config_file.stat.exists
   ## block end
   tags:
     - prereq

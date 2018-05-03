@@ -34,7 +34,7 @@
       - skipifbelowspecs
       - skipyumspacefail
 
-  when:  yum_cache_yn | bool  == true
+  when:  ansible_os_family == redhat_os_name and yum_cache_yn | bool  == true
   tags:
     - yumcache
     - detectableonly
@@ -48,6 +48,7 @@
     dest=/etc/yum.conf
     regexp="^keepcache="
     line="keepcache={{yum_cache_yn}}"
+  when: ansible_os_family == redhat_os_name and yum_cache_yn | bool  == true
   tags:
     - yum_cache_config
     - fixable
