@@ -4,7 +4,7 @@ Tools and utilities to help SAS customers with SAS Viya readiness.
 
 ## License
 
-Copyright (c) 2017 by SAS Institute Inc., Cary, NC 27513 USA
+Copyright (c) 2017-2018 by SAS Institute Inc., Cary, NC 27513 USA
 
 Licensed under the Apache License, Version 2.0 (the "License"); 
 you may not use this file except in compliance with the License. 
@@ -40,5 +40,9 @@ While SAS Tech Support will not provide support for the content of this resource
 
 # Index of tools
 
-* [Viya 3.2 Pre-Install Playbook](../viya-3.2/playbooks/pre-install-playbook/README.md)
-* [Viya 3.3 Pre-Install Playbook](../viya-3.3/playbooks/pre-install-playbook/README.md)
+* Pre-Install Playbooks
+  * [Viya 3.2 Pre-Install Playbook](../viya-3.2/playbooks/pre-install-playbook/README.md)
+  * [Viya 3.3 Pre-Install Playbook](../viya-3.3/playbooks/pre-install-playbook/README.md)
+  * Viya 3.4 Pre-Install Playbook - COMING SOON!!
+* Home Directory Creator Playbook
+  * [Viya 3.3 Home Directory Creator Playbook](../viya-3.3/playbooks/home-directory-creator/README.md)
