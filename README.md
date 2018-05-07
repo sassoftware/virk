@@ -46,3 +46,4 @@ While SAS Tech Support will not provide support for the content of this resource
   * Viya 3.4 Pre-Install Playbook - COMING SOON!!
 * Home Directory Creator Playbook
   * [Viya 3.3 Home Directory Creator Playbook](../viya-3.3/playbooks/home-directory-creator/README.md)
+  * Viya 3.4 Home Directory Creator Playbook - COMING SOON!!
