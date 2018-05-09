@@ -150,7 +150,6 @@ sas_yum_urls:
 ## we should be counting IPs, and not NICs.
 ##
 max_num_priv_ips: 1             ## maximum number of network interfaces
-#priv_ip_count_command: "ip -4 -o addr | awk '!/^[0-9]*: ?lo|link\\/ether/ {gsub(\"/\", \" \"); print $4}' | wc -l"
 priv_ip_count_command: "ip -4 -o addr | awk -F'[ ]' '{print $2}' | grep -v lo | wc -l"
 
 
