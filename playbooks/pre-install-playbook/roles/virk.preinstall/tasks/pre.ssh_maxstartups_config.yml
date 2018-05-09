@@ -68,8 +68,6 @@
         backup=yes
       register: sshd_config
 
-    # - name: Display the result of the update of the sshd_config file
-    #   debug: var=sshd_config
 
     ##
     ## Re-run sshd -T to see if it executes successfully or complains,
