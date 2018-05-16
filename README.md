@@ -40,4 +40,5 @@ While SAS Tech Support will not provide support for the content of this resource
 
 # Index of tools
 
-* [Viya Pre-Install Playbook](playbooks/pre-install-playbook/README.md)
+* [Viya Pre-Install Playbook](playbooks/pre-install-playbook)
+* [Viya Home Directory Creator Playbook](playbooks/home-directory-createor)
