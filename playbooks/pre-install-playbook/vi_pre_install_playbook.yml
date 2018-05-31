@@ -61,5 +61,66 @@
 - hosts: sas-all
   become: yes
   become_user: root
+  vars:
+    required_python_min_version: "2.7"
+    yum_packages_general:
+      - java-1.8.0-openjdk
+      - numactl
+      - libXp.x86_64
+      - libXp.i686
+      - libXext
+      - libXmu
+      - libXtst
+      - xterm             ## this is required for the xterm functions from CAS Monitor
+      - xorg-x11-xauth
+      - strace            ## may be neeeded for hadooptracer
+      - net-tools         ## you need to have netstat on the server
+      - bash
+      - jq                ## VI-specific
+      - gettext           ## VI-specific
+      - bc                ## VI-specific
+      - postgresql        ## VI-specific
+    custom_user_list:
+      - { name: "{{sas_user}}" , uid: 1001 ,  group: "{{sas_group}}",  groups: "{{sas_group}}"}
+      - { name: "{{cas_user}}" , uid: 1002 ,  group: "{{sas_group}}",  groups: "{{sas_group}}"}
+      - { name: "viadmin" , uid: 1003 ,  group: "{{sas_group}}",  groups: "{{sas_group}}"}
+    semaphores:
+      - { name: kernel.sem          , value: 512 32000 256 1024 }
+      - { name: net.core.somaxconn  , value: 2048 }
+      - { name: vm.max_map_count    , value: 262144 }
+      - { name: vm.overcommit_memory, value: 0 }
+    ulimits:
+      -
+        comment: "#Added (1) for Viya Installation"
+        domain: "*"
+        item: nofile
+        type: "-"
+        use_max: true
+        use_min: false
+        value: 150000
+      -
+        comment: "#Added (2) for Viya Installation"
+        domain: "{{sas_user}}"
+        item: stack
+        type: "-"
+        use_max: true
+        use_min: false
+        value: 10240
+      -
+        comment: "#Added (3) for Viya Installation"
+        domain: "*"
+        item: nproc
+        type: "-"
+        use_max: true
+        use_min: false
+        value: 100000
+      -
+        comment: "#Added (4) for Viya Installation"
+        domain: "*"
+        item: as
+        type: "-"
+        use_max: false
+        use_min: false
+        value: unlimited  
   roles:
    - virk.preinstall
