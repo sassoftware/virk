@@ -1,10 +1,10 @@
 ####################################################################
-#### viya_pre_install_playbook.yml                              ####
+#### vi_pre_install_playbook.yml                                ####
 ####################################################################
 #### Author: SAS Institute Inc.                                 ####
 ####                                                            ####
 ####  WARNING: this playbook only works                         ####
-####           with Ansible 2.4 and above.                      ####
+####           with Ansible 2.2 and above.                      ####
 ####                                                            ####
 ####################################################################
 
@@ -31,14 +31,14 @@
 # pre-requisites for a generic Viya deployment.
 #
 # to see an index of the things it does, run:
-#        ansible-playbook viya_pre_install_playbook.yml --list-tasks
+#        ansible-playbook vi_pre_install_playbook.yml --list-tasks
 #
 # to see how far from the desired state you are, run:
-#        ansible-playbook viya_pre_install_playbook.yml --check
+#        ansible-playbook vi_pre_install_playbook.yml --check
 #
 # to let the playbook make all the required changes and bring you
 # to the desired state, run:
-#        ansible-playbook viya_pre_install_playbook.yml
+#        ansible-playbook vi_pre_install_playbook.yml
 #
 # useful tags to know:
 #
