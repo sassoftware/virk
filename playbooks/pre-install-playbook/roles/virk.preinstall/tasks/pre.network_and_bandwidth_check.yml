@@ -24,6 +24,21 @@
     tags:
       - nics
 
+  - name: "If the variable 'consul_bind_adapter=' is set in the inventory, gather the list of network interfaces"
+    shell: "ls /sys/class/net"
+    changed_when: False
+    check_mode: no
+    when: consul_bind_adapter is defined
+    register: adapters
+    tags:
+      - nics
+      
+  - name: Show the names of the network interfaces
+    debug: var=adapters
+    tags:
+      - nics
+      
+      
   - name: Assert that there only ({{max_num_nics|int}}) NICs or less on the server
     assert:
       that:
@@ -35,11 +50,30 @@
         - "Please read the Deployment guide and search for the reference to the following parameter:"
         - "   consul_bind_adapter=   "
         - "Add --skip-tags skipnicssfail to suppress this failure and message."
+    when: consul_bind_adapter is not defined
     tags:
       - nics
       - skipifbelowspecs
       - skipnicssfail
 
+  - name: Assert that the provided consul_bind_adapter exists 
+    assert:
+      that:
+        # - (numnics.stdout | int) <= (max_num_nics | int)
+        - (consul_bind_adapter)  in (adapters.stdout)
+      msg:
+        - "You provided a value for consul_bind_adapter of '{{consul_bind_adapter}}'"
+        - "This server seems to have {{numnics.stdout|int}} Network Interfaces:"
+        - "{{adapters.stdout_lines}}"
+        - "The one provided does not seem to match any."
+        - "Either correct it, or add --skip-tags skipnicssfail to suppress this failure and message."
+    when: consul_bind_adapter is defined
+    tags:
+      - nics
+      - skipifbelowspecs
+      - skipnicssfail
+      
+      
   - name: "Trying to hit the SAS yum repository "
     shell: "curl -v -k https://{{item}}/"
     changed_when: False
