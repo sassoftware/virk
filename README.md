@@ -41,9 +41,9 @@ While SAS Tech Support will not provide support for the content of this resource
 # Index of tools
 
 * Pre-Install Playbooks
-  * [Viya 3.2 Pre-Install Playbook](../viya-3.2/playbooks/pre-install-playbook/README.md)
-  * [Viya 3.3 Pre-Install Playbook](../viya-3.3/playbooks/pre-install-playbook/README.md)
+  * [Viya 3.2 Pre-Install Playbook](../viya-3.2/playbooks/pre-install-playbook)
+  * [Viya 3.3 Pre-Install Playbook](../viya-3.3/playbooks/pre-install-playbook)
   * Viya 3.4 Pre-Install Playbook - COMING SOON!!
 * Home Directory Creator Playbook
-  * [Viya 3.3 Home Directory Creator Playbook](../viya-3.3/playbooks/home-directory-creator/README.md)
+  * [Viya 3.3 Home Directory Creator Playbook](../viya-3.3/playbooks/home-directory-creator)
   * Viya 3.4 Home Directory Creator Playbook - COMING SOON!!
