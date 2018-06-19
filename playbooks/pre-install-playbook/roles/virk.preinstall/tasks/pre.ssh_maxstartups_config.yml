@@ -26,12 +26,19 @@
 
   ## case 1: current value is bigger, we leave as-is
   - block:
-    - debug: msg="Your current maxstartups value ({{cur_maxstartups_3.stdout}}) is larger or equal than the desired maxstartups value ({{maxstartups_val}}) \n We won't udpate the maxstartups value"
+    - name: Display information about SSH when we leave the value of MaxStartups unchanged
+      debug:
+        msg:
+          - "Your current maxstartups value ({{cur_maxstartups_3.stdout}}) is larger or equal than the desired maxstartups value ({{maxstartups_val}}) "
+          - " We won't udpate the SSH maxstartups value"
     when: cur_maxstartups_3 is defined and ((cur_maxstartups_3.stdout | int) > maxstartups_val|int)
 
   ## case 2: current value is smaller, we update
   - block:
-    - debug: msg="your current maxstartups value ({{cur_maxstartups_3.stdout}}) is smaller than the desired maxstartups value ({{maxstartups_val}})"
+    - name: Display information about SSH when we have to update the value of MaxStartups
+      debug:
+        msg:
+          - "Your current maxstartups value ({{cur_maxstartups_3.stdout}}) is smaller than the desired maxstartups value ({{maxstartups_val}})"
 
     - name: Capture current SSH maxstartups value (first one)
       shell: "sshd -T | grep maxstartups | awk -F'[: ]' '{print $2}'"
@@ -45,10 +52,12 @@
       check_mode: no
       register: cur_maxstartups_2
 
-    - set_fact:
+    - name: Build the new line to be added to the sshd_config
+      set_fact:
         newsshline: "{% if cur_maxstartups_1.stdout=='' or cur_maxstartups_2.stdout=='' %}MaxStartups {{maxstartups_val}}{% else %}MaxStartups {{cur_maxstartups_1.stdout}}:{{cur_maxstartups_2.stdout}}:{{maxstartups_val}}{% endif %}"
 
-    - debug: var=newsshline
+    - name: Display the new line to be added to the sshd_config file
+      debug: var=newsshline
 
     - name: Configure SSH with MaxStartups={{maxstartups_val}} in /etc/ssh/sshd_config
       lineinfile:
@@ -59,7 +68,6 @@
         backup=yes
       register: sshd_config
 
-    - debug: var=sshd_config
 
     ##
     ## Re-run sshd -T to see if it executes successfully or complains,

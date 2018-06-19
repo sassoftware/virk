@@ -4,39 +4,43 @@
 ####################################################################
 # Test harness
 #   make it pass
-#     ansible-playbook viya_pre_install_playbook.yml --tags network_and_bandwidth_check -e "use_pause=0" -e "max_num_nics=10"
+#     ansible-playbook viya_pre_install_playbook.yml --tags network_and_bandwidth_check -e "use_pause=0" -e "max_num_priv_ips=10"
 #   make it fail
-#     ansible-playbook viya_pre_install_playbook.yml --tags network_and_bandwidth_check -e "use_pause=0" -e "max_num_nics=0"
+#     ansible-playbook viya_pre_install_playbook.yml --tags network_and_bandwidth_check -e "use_pause=0" -e "max_num_priv_ips=0"
 
 - block:
   ## block start
 
-  - name: "Count the number of NICs (other than loopback)"
-    shell: "{{nic_count_command}}"
+  - name: "Count the number of private IPs (other than loopback)"
+    shell: "{{priv_ip_count_command}}"
     changed_when: False
     check_mode: no
-    register: numnics
+    register: num_priv_ips
     tags:
       - nics
+      - privips
 
-  - name: Show the number of NICs found on the server
-    debug: var=numnics.stdout
+  - name: Show the number of private IPs found on the server
+    debug: var=num_priv_ips.stdout
     tags:
       - nics
+      - privips
 
-  - name: Assert that there only ({{max_num_nics|int}}) NICs or less on the server
+  - name: Assert that there only ({{max_num_priv_ips|int}}) IPs or less on the server
     assert:
       that:
-        - (numnics.stdout | int) <= (max_num_nics | int)
+        - (num_priv_ips.stdout | int) <= (max_num_priv_ips | int)
       msg:
-        - "This server seems to have {{numnics.stdout|int}} Network Interfaces."
-        - "It should only have {{max_num_nics|int}}."
-        - "This will require more work to successfully deploy consul."
+        - "This server seems to have {{num_priv_ips.stdout|int}} IP addresses."
+        - "It should only have {{max_num_priv_ips|int}} at most."
+        - "This will require more work for Consul to successfully start."
         - "Please read the Deployment guide and search for the reference to the following parameter:"
         - "   consul_bind_adapter=   "
-        - "Add --skip-tags skipnicssfail to suppress this failure and message."
+        - "Add --skip-tags skipipsfail to suppress this failure and message."
     tags:
       - nics
+      - privips
+      - skipipsfail
       - skipifbelowspecs
       - skipnicssfail
 
