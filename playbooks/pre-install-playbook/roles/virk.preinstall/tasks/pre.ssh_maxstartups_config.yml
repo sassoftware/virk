@@ -15,6 +15,15 @@
 - block:
   ## block start
 
+  - name: Get current full SSH maxstartups settings
+    shell: "sshd -T | grep maxstartups"
+    changed_when: False
+    register: cur_maxstartups_settings
+
+  - name: Show current full SSH maxstartups settings
+    debug:
+      var: cur_maxstartups_settings.stdout
+
   - name: Capture current SSH maxstartups value (third one)
     shell: "sshd -T | grep maxstartups | awk -F'[: ]' '{print $4}'"
     changed_when: False
@@ -29,9 +38,9 @@
     - name: Display information about SSH when we leave the value of MaxStartups unchanged
       debug:
         msg:
-          - "Your current maxstartups value ({{cur_maxstartups_3.stdout}}) is larger or equal than the desired maxstartups value ({{maxstartups_val}}) "
+          - "Your current maxstartups value ({{cur_maxstartups_3.stdout}}) is larger than or equal to the desired maxstartups value ({{maxstartups_val}}) "
           - " We won't udpate the SSH maxstartups value"
-    when: cur_maxstartups_3 is defined and ((cur_maxstartups_3.stdout | int) > maxstartups_val|int)
+    when: cur_maxstartups_3 is defined and ((cur_maxstartups_3.stdout | int) >= maxstartups_val|int)
 
   ## case 2: current value is smaller, we update
   - block:
