@@ -13,29 +13,29 @@
   
   - debug: var=limitsd_dir
 
-  - set_fact:
-      ulimit_file: "{% if limitsd_dir.stat.exists %}{{ulimit_file_loc}}{% else %}{{suse_ulimit_file_loc}}{% endif %}"
-
-  - debug: var=ulimit_file
-
-  - debug:
-      msg: "Did not find {{default_ulimits_dir}} directory. Configuring ulimits in /etc/security location."
+  - name: "Create {{default_ulimits_dir}} if it doesn't exist."
+    file:
+      path: "{{default_ulimits_dir}}"
+      state: directory
+      group: root
+      owner: root
+      mode: 0755
     when: not limitsd_dir.stat.exists
-    
+
   - name: Ensure customer ulimit conf file exists
     copy:
       content: "#Custom file for Viya 3.4 ulimits#\n"
-      dest: "{{ulimit_file}}"
+      dest: "{{ulimit_file_loc}}"
       force: no
       group: root
       owner: root
       mode: 0644
 
-  - name: "Setting ulimits for Viya - in {{ulimit_file}}"
+  - name: "Setting ulimits for Viya - in {{ulimit_file_loc}}"
     become: yes
     become_user: root
     pam_limits:
-      dest: "{{ulimit_file}}"
+      dest: "{{ulimit_file_loc}}"
       domain: "{{item.domain}}"
       limit_type: "{{item.type}}"
       limit_item: "{{item.item}}"
