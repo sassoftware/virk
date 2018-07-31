@@ -66,7 +66,6 @@ ulimit_soft_nproc_val: 65536
 # dealing with ulimits:
 default_ulimits_dir: /etc/security/limits.d
 ulimit_file_loc: /etc/security/limits.d/viya_3.4_limits.conf
-suse_ulimit_file_loc: /etc/security/viya_3.4_limits.conf
 ulimits:
   -
     comment: "#Added (1) for Viya Installation"
@@ -150,12 +149,16 @@ sas_yum_urls:
   - bwp2.ses.sas.download
   - sesbw.sas.download
 
-## maximum number of network interfaces (excluding loopback)
-max_num_nics: 1             ## maximum number of network interfaces (excluding loopback)
+## maximum number of IP adresses (excluding loopback)
+#max_num_nics: 1             ## maximum number of network interfaces (excluding loopback)
 ## the command used to count active NICs
 #nic_count_command: "ls -A /sys/class/net | grep -v lo | wc -l"
 #nic_count_command: "netstat -i|grep -ve ^lo -e ^Iface -e ^Kernel | wc -l"
-nic_count_command: "ip link show up | grep -ve link -e ': lo:' | wc -l"
+#nic_count_command: "ip link show up | grep -ve link -e ': lo:' | wc -l"
+## we should be counting IPs, and not NICs.
+##
+max_num_priv_ips: 1             ## maximum number of network interfaces
+priv_ip_count_command: "ip -4 -o addr | awk -F'[ ]' '{print $2}' | grep -v lo | wc -l"
 
 
 
