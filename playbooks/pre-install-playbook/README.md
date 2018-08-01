@@ -7,7 +7,7 @@
 ## Pre-requisites for running the pre-installation playbook
 Before running this script you will need to:
 * Install ansible. Version 2.4.1 or above is recommended for deployment.
-* Make sure the user has sudo prvilileges
+* Make sure the user has sudo privileges.
 * Be aware that the scripts makes modifications to the system when not run with the --check option.
 * The base inventory file that we've provided contains only localhost and will only run on the machine on which it was installed. To run the playbook against multiple machines you can update the inventory file to include additional hosts. See [Ansible Documentation](http://docs.ansible.com/ansible/latest/intro_inventory.html) for how-to.
 
