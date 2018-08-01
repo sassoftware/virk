@@ -7,4 +7,4 @@
 * The code for each release of the Viya software can be found here:
   * [Viya 3.2](https://github.com/sassoftware/virk/tree/viya-3.2)
   * [Viya 3.3](https://github.com/sassoftware/virk/tree/viya-3.3)
-  * Viya 3.4 - COMING SOON!!
+  * [Viya 3.4](https://github.com/sassoftware/virk/tree/viya-3.4)
