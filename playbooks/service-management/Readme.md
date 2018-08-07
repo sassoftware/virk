@@ -8,6 +8,7 @@
   - That means all services are in up status after deployment
   - See below for how to list Viya services status
 * Run from the same ansible controller with Viya playbooks in place
+* Multi-tenant is not supported
 * Make sure sas-viya-all-services is disabled from system reboot
 
 ## Running the scripts
