@@ -1,32 +1,38 @@
-<h3> SAS Viya Infrastructure Resource Kit (VIRK) - sds_micro_service_pg_connection_test.sh <h3> 
+# SAS Viya Infrastructure Resource Kit (VIRK) - sds_micro_service_pg_connection_test.sh
 
-<h3> Introduction </h3>
-- SAS DataServer (Postgres) utility script i.e. **sds_micro_service_pg_connection_test.sh** to get connection/session count per micro service for a given cluster and it also tests connectivity for Postgres and pgpool nodes.
-- It can be run with interval option to capture the snapshot of no of connections.
-- It helps in identifying which micro services is taking up min. and max. connections.
+## Introduction
+* SAS DataServer (Postgres) utility script i.e. **sds_micro_service_pg_connection_test.sh** to get connection/session count per micro service for a given cluster and it also tests connectivity for Postgres and pgpool nodes.
+* It can be run with interval option to capture the snapshot of no of connections.
+* It helps in identifying which micro services is taking up min. and max. connections.
 
-<h3> Pre-requisites for running the script </h3>
+## Pre-requisites for running the script
 - SAS Viya 3.4 all services must be up & running
 
-<h3> Install the script </h3>
+## Install the script
 
-- Logon to pgpool host as root/sudoer and switch to sas user:
- - sudo su - sas
+* Logon to pgpool host as root/sudoer and switch to sas user:
+    
+    ```$ sudo su - sas```
  
-- Download the script:
- - curl -o sds_micro_service_pg_connection_test.sh https://gitlab.sas.com/SDE-BareOS/PostgresUtl/raw/master/viya/sds_micro_service_pg_connection_test.sh
-   
-- Change file permission to 755
- - chmod 755 sds_micro_service_pg_connection_test.sh
-   
-- To get help
- - ./sds_micro_service_pg_connection_test.sh -h
+* Download the script:
 
-<h3> Running the script </h3>
+    ```$ curl -o sds_micro_service_pg_connection_test.sh https://gitlab.sas.com/SDE-BareOS/PostgresUtl/raw/master/viya/sds_micro_service_pg_connection_test.sh```
+   
+* Change file permission to 755
 
-- Logon to pgpool host as root/sudoer and switch to sas user:
- - sudo su - sas
- - To running/executing the script, refer to examples section below.
+    ```$ chmod 755 sds_micro_service_pg_connection_test.sh```
+   
+* To get help
+
+    ```$ ./sds_micro_service_pg_connection_test.sh -h```
+
+## Running the script
+
+* Logon to pgpool host as root/sudoer and switch to sas user:
+
+    ````sudo su - sas```
+ 
+ To run/executing the script, refer to examples section below.
 
 **Usage:**
 <pre>
