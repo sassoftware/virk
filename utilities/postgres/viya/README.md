@@ -30,7 +30,7 @@
 
 * Logon to pgpool host as root/sudoer and switch to sas user:
 
-    ````sudo su - sas```
+    ```sudo su - sas```
  
  To run/executing the script, refer to examples section below.
 
