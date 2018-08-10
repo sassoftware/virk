@@ -10,11 +10,7 @@
 
 ## Running the script
 
-* Logon to pgpool host as root/sudoer and switch to sas user:
-
-    ```sudo su - sas```
- 
-* Now that you are the sas user, follow the examples below.
+* To run the script, logon to pgpool host as root/sudoer and switch to the 'sas' user.
 
 **Usage:**
 <pre>
