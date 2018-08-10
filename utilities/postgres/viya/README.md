@@ -32,7 +32,7 @@
 
     ```sudo su - sas```
  
- To run/executing the script, refer to examples section below.
+* Now that you are the sas user, follow the examples below.
 
 **Usage:**
 <pre>
