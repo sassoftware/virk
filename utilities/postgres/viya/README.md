@@ -8,24 +8,6 @@
 ## Pre-requisites for running the script
 - SAS Viya 3.4 all services must be up & running
 
-## Install the script
-
-* Logon to pgpool host as root/sudoer and switch to sas user:
-    
-    ```$ sudo su - sas```
- 
-* Download the script:
-
-    ```$ curl -o sds_micro_service_pg_connection_test.sh https://gitlab.sas.com/SDE-BareOS/PostgresUtl/raw/master/viya/sds_micro_service_pg_connection_test.sh```
-   
-* Change file permission to 755
-
-    ```$ chmod 755 sds_micro_service_pg_connection_test.sh```
-   
-* To get help
-
-    ```$ ./sds_micro_service_pg_connection_test.sh -h```
-
 ## Running the script
 
 * Logon to pgpool host as root/sudoer and switch to sas user:
