@@ -2,8 +2,6 @@
 
 Tools and utilities to help SAS customers with SAS Viya readiness.
 
-# WARNING - DO NOT USE!!! - This code is used for SAS Internal Development and Testing. If you are looking for the Pre-Install playbook for Viya 3.4 follow the link here: [Viya 3.4 Pre-Install Playbook](../viya-3.4/playbooks/pre-install-playbook)
-
 ## License
 
 Copyright (c) 2017-2018 by SAS Institute Inc., Cary, NC 27513 USA
