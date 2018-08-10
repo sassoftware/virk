@@ -28,6 +28,7 @@ limitations under the License.
 
   * Pre-deployment assessment and/or configuration
   * Post-deployment automation
+  * Post-deployment utilitites
   * Infrastructure templates
 
 ## Pre-requisites for VIRK
@@ -47,3 +48,5 @@ While SAS Tech Support will not provide support for the content of this resource
 * Home Directory Creator Playbook
   * [Viya 3.3 Home Directory Creator Playbook](../viya-3.3/playbooks/home-directory-creator)
   * [Viya 3.4 Home Directory Creator Playbook](../viya-3.4/playbooks/home-directory-creator)
+* Utilities
+  * [SAS DataServer Utility Script](../viya-3.4/utilities/postgres/viya)
