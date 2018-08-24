@@ -4,6 +4,13 @@
 * SAS DataServer (Postgres) utility script i.e. **sds_micro_service_pg_connection_test.sh** to get connection/session count per micro service for a given cluster and it also tests connectivity for Postgres and pgpool nodes.
 * It can be run with interval option to capture the snapshot of no of connections.
 * It helps in identifying which micro services is taking up min. and max. connections.
+* You can run this script to determine Postgres is running.
+* If you having issues with number of connections you can run this script to see number of connections by application.
+
+For more information Postgres connections follow these steps:
+  1. Go here: [SAS® Viya® 3.4 Administration: Tuning](https://go.documentation.sas.com/?cdcId=calcdc&cdcVersion=3.4&docsetId=caltuning&docsetTarget=titlepage.htm&locale=en)
+  2. Click on 'SAS Infrastructure Data Server'
+  3. Click on 'Connection Settings'
 
 ## Pre-requisites for running the script
 - SAS Viya 3.4 all services must be up & running
@@ -12,26 +19,26 @@
 
 * To run the script, logon to pgpool host as root/sudoer and switch to the 'sas' user.
 
-**Usage:**
+### Usage:
 <pre>
 ./sds_micro_service_pg_connection_test.sh -s [ServiceName|ClusterName] -i [No of iterations] -w [Wait time]
 </pre>
 
-**Options:** 
+### Options: 
 <pre>
 s - ServiceName or ClusterName, for example, 'sds-ci' or 'postgres' - Optional parameter
 i - No of iterations,           for example, '10' or '25'           - Optional parameter
 w - Wait time in seconds,       for example, '5' or '15'            - Optional parameter
 </pre>
 
- **Defaults**:
+ ### Defaults:
 <pre>
  ClusterName is set to       : All Clusters define in the Consul
  No of iterations are set to : 1
  Wait time is set to         : 5 seconds
 </pre>
 
- **Examples:** 
+ ### Examples: 
 <pre>
 ./sds_micro_service_pg_connection_test.sh -s postgres -i 25 -w 10   :-> One cluster  and 25 iterations, wait 10 seconds
 ./sds_micro_service_pg_connection_test.sh -s postgres               :-> One cluster  and  1 iteration , wait  5 seconds
