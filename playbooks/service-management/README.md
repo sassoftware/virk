@@ -7,6 +7,8 @@
 * Have a successful deployment for 1-n machines
   - That means all services are in up status after deployment
   - See below for how to list Viya services status
+* These scripts must be placed under the sas_viya_playbook directory where Viya was deployed. The directory structure of this project must be preserved.
+  - For example: ```sas_viya_playbook/virk/playbooks/service-management/```
 * Run from the same ansible controller with Viya playbooks in place
 * Multi-tenant is not supported
 * Make sure sas-viya-all-services is disabled from system reboot
