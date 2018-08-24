@@ -50,3 +50,4 @@ While SAS Tech Support will not provide support for the content of this resource
   * [Viya 3.4 Home Directory Creator Playbook](../viya-3.4/playbooks/home-directory-creator)
 * Utilities
   * [SAS DataServer Utility Script](../viya-3.4/utilities/postgres/viya)
+  * [Service Management Playbook](../viya-3.4/playbooks/service-management)
