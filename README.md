@@ -1,6 +1,6 @@
 # SAS Viya Infrastructure Resource Kit (VIRK)
 
-Tools and utilities to help SAS customers with SAS Viya readiness.
+SAS VIRK provides interoperating tools and utilities to help SAS customers prepare for a SAS(R) Viya(R) deployment.
 
 ## License
 
@@ -12,7 +12,7 @@ You may obtain a copy of the License at
 
    http://www.apache.org/licenses/LICENSE-2.0
    
-And is also included in this repository here
+The license is also included in this repository here:
 
    [LICENSE](LICENSE)
 
@@ -22,15 +22,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and 
 limitations under the License.
 
-## Introduction
-* This collection of tools aims at automating and streamlining various aspects surrounding a Viya deployment.
-* These include:
+## Introduction to SAS VIRK
+VIRK is a collection of resources to automate and streamline tasks that are required to prepare an environment for a SAS Viya deployment.
+VIRK provides the following types of assistance:
 
   * Pre-deployment assessment and/or configuration
   * Post-deployment automation
   * Infrastructure templates
 
-## Pre-requisites for VIRK
+## Prerequisites for VIRK
 Each item included here in the resource kit will detail its specific pre-requisite and functionality.
 
 As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansible/latest/intro_installation.html) is required for the Ansible playbooks contained in [Pre-Installation](playbooks/pre-install-playbook) playbook section.
@@ -38,6 +38,6 @@ As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansibl
 ## Support
 While SAS Tech Support will not provide support for the content of this resource kit, issues and/or pull requests in GitHub are welcome.
 
-# Index of tools
+# Index of Tools
 
 * [Viya Pre-Install Playbook](playbooks/pre-install-playbook/README.md)
