@@ -1,6 +1,6 @@
 # SAS Viya Infrastructure Resource Kit (VIRK)
 
-Tools and utilities to help SAS customers with SAS Viya readiness.
+SAS VIRK provides interoperating tools and utilities to help SAS customers prepare for a SAS(R) Viya(R) deployment.
 
 ## License
 
@@ -12,7 +12,7 @@ You may obtain a copy of the License at
 
    http://www.apache.org/licenses/LICENSE-2.0
    
-And is also included in this repository here
+The license is also included in this repository here:
 
    [LICENSE](LICENSE)
 
@@ -23,24 +23,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 ## Introduction
-* This collection of tools aims at automating and streamlining various aspects surrounding a Viya deployment.
-* These include:
+VIRK is a collection of resources to automate and streamline tasks that are required to prepare an environment for a SAS Viya deployment.
 
-  * Pre-deployment assessment and/or configuration
+VIRK provides the following types of assistance:
+
+  * Pre-deployment assessment and optional configuration
   * Post-deployment automation
+  * Post-deployment utilitites
   * Infrastructure templates
 
-## Pre-requisites for VIRK
-Each item included here in the resource kit will detail its specific pre-requisite and functionality.
+## Prerequisites for VIRK
+Each item that is included in the resource kit provides a document that describes its specific prerequisites and functionality.
 
-As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansible/latest/intro_installation.html) is required for the Ansible playbooks contained in [Pre-Installation](playbooks/pre-install-playbook) playbook section.
+As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansible/latest/intro_installation.html) is required to run  the Ansible playbooks that are included in the Pre-installation Playbooks section. A list of the available playbooks is provided below in the [Pre-installation](playbooks/pre-install-playbook) Playbook section.
 
 ## Support
-While SAS Tech Support will not provide support for the content of this resource kit, issues and/or pull requests in GitHub are welcome.
+SAS Technical Support does not provide support for the contents of this resource kit. However, you are welcome to submit issues and pull requests in GitHub.
 
 # Index of tools
 
-* [Viya Pre-Install Playbook](playbooks/pre-install-playbook)
-* [Viya Home Directory Creator Playbook](playbooks/home-directory-createor)
-* [SAS DataServer Utility Script](utilities/postgres/viya)
+* [Pre-installation Playbook](playbooks/pre-install-playbook)
+* [Home Directory Creator Playbook](playbooks/home-directory-createor)
+* [SAS Data Server Utility Script](utilities/postgres/viya)
 * [Service Management Playbook](playbooks/service-management)
