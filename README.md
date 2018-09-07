@@ -35,12 +35,12 @@ VIRK provides the following types of assistance:
 ## Prerequisites for VIRK
 Each item that is included in the resource kit provides a document that describes its specific prerequisites and functionality.
 
-As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansible/latest/intro_installation.html) is required to run  the Ansible playbooks that are included in the Pre-installation Playbooks section. A list of the available playbooks is provided below in the [Pre-installation](playbooks/pre-install-playbook) Playbook section.
+For example, a functioning [Ansible Controller](http://docs.ansible.com/ansible/latest/intro_installation.html) is required to run  the Ansible playbooks that are included below in the [Pre-installation Playbook](playbooks/pre-install-playbook) section. A list of the available playbooks is provided.
 
 ## Support
 SAS Technical Support does not provide support for the contents of this resource kit. However, you are welcome to submit issues and pull requests in GitHub.
 
-# Index of tools
+# Index of Tools
 
 * [Pre-installation Playbook](playbooks/pre-install-playbook)
 * [Home Directory Creator Playbook](playbooks/home-directory-createor)
