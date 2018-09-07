@@ -24,6 +24,7 @@ limitations under the License.
 
 ## Introduction
 VIRK is a collection of resources to automate and streamline tasks that are required to prepare an environment for a SAS Viya deployment.
+
 VIRK provides the following types of assistance:
 
   * Pre-deployment assessment and optional configuration
@@ -32,14 +33,14 @@ VIRK provides the following types of assistance:
   * Infrastructure templates
 
 ## Prerequisites for VIRK
-Each item that is included in the resource kit will provide a document that describes its specific prerequisites and functionality.
+Each item that is included in the resource kit provides a document that describes its specific prerequisites and functionality.
 
-As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansible/latest/intro_installation.html) is required to run  the Ansible playbooks that are included in the Pre-installation Playbooks section. A list of the available playbooks is provided below in the [Pre-Installation](playbooks/pre-install-playbook) playbook section.
+As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansible/latest/intro_installation.html) is required to run  the Ansible playbooks that are included in the [Pre-Installation Playbook](playbooks/pre-install-playbook) section. A list of the available playbooks is provided.
 
 ## Support
 SAS Technical Support does not provide support for the contents of this resource kit. However, you are welcome to submit issues and pull requests in GitHub.
 
 # Index of tools
 
-* [Viya Pre-Install Playbook](playbooks/pre-install-playbook/)
+* [Pre-Installation Playbook](playbooks/pre-install-playbook/)
 * [Home Directory Creator](playbooks/home-directory-creator/)
