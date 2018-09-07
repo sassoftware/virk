@@ -23,10 +23,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 ## Introduction to SAS VIRK
-* VIRK is a collection of resources to automate and streamline tasks that are required to prepare an environment for a SAS Viya deployment.
-* VIRK provides the following types of assistance:
+VIRK is a collection of resources to automate and streamline tasks that are required to prepare an environment for a SAS Viya deployment.
+VIRK provides the following types of assistance:
 
-  * Pre-deployment assessment and/or configuration
+  * Pre-deployment assessment and optional configuration
   * Post-deployment automation
   * Post-deployment utilitites
   * Infrastructure templates
