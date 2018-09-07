@@ -4,7 +4,7 @@ SAS VIRK provides interoperating tools and utilities to help SAS customers prepa
 
 ## License
 
-Copyright (c) 2017 by SAS Institute Inc., Cary, NC 27513 USA
+Copyright (c) 2017-18 by SAS Institute Inc., Cary, NC 27513 USA
 
 Licensed under the Apache License, Version 2.0 (the "License"); 
 you may not use this file except in compliance with the License. 
