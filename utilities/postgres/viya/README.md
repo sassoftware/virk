@@ -4,7 +4,11 @@
 VIRK provides a utility that supports the deployment of the SAS Infrastructure Data Server component of SAS Viya. SAS Infrastructure Data Server is a PostgreSQL server that stores user data. 
 
 This utility, a shell script named **sds_micro_service_pg_connection_test.sh**, gets a connection or session count per microservice for a given cluster in the SAS Viya environment. 
-It also tests connectivity for PostgreSQL and pgpool hosts. It is used after the SAS Viya deployment has completed.
+
+It also tests connectivity for PostgreSQL and pgpool hosts. 
+
+Run this script after the SAS Viya deployment has completed.
+
 You can run this script with the interval option to capture a snapshot of the number of connections. This data is helpful for identifying microservices that are using the minimum and maximum connections in the deployment.
 You can also run this script to determine whether the PostgreSQL instance is running.
 If you are having issues with the number of connections in your environment, you can run this script to see the number of connections by application.
