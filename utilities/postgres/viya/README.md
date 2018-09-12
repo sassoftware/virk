@@ -44,9 +44,9 @@ w - Wait time in seconds,       for example, '5' or '15'            - Optional p
 
  ### Examples 
 <pre>
-./sds_micro_service_pg_connection_test.sh -s postgres -i 25 -w 10   :-> One cluster  and 25 iterations, wait 10 seconds
-./sds_micro_service_pg_connection_test.sh -s postgres               :-> One cluster  and  1 iteration , wait  5 seconds
+./sds_micro_service_pg_connection_test.sh -s postgres -i 25 -w 10   -> One cluster  and 25 iterations, wait 10 seconds
+./sds_micro_service_pg_connection_test.sh -s postgres               -> One cluster  and  1 iteration,  wait  5 seconds
 
-./sds_micro_service_pg_connection_test.sh                           :-> All clusters and  1 iteration , wait  5 seconds
-./sds_micro_service_pg_connection_test.sh -i 5 -w 15                :-> All clusters and  5 iterations, wait 15 seconds
+./sds_micro_service_pg_connection_test.sh                           -> All clusters and  1 iteration,  wait  5 seconds
+./sds_micro_service_pg_connection_test.sh -i 5 -w 15                -> All clusters and  5 iterations, wait 15 seconds
 </pre>
