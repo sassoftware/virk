@@ -31,15 +31,15 @@ To run the script, log on to the machine that is specified in the inventory file
 ### Options 
 <pre>
 s - ServiceName or ClusterName, for example, 'sds-ci' or 'postgres' - Optional parameter
-i - No of iterations,           for example, '10' or '25'           - Optional parameter
+i - Number of iterations,       for example, '10' or '25'           - Optional parameter
 w - Wait time in seconds,       for example, '5' or '15'            - Optional parameter
 </pre>
 
  ### Defaults
 <pre>
- ClusterName is set to       : All clusters that are defined in SAS Configuration Server (Consul)
- Number of iterations is set to : 1
- Wait time is set to         : 5 seconds
+ ClusterName is set to: All clusters that are defined in SAS Configuration Server (Consul)
+ Number of iterations is set to: 1
+ Wait time is set to: 5 seconds
 </pre>
 
  ### Examples 
