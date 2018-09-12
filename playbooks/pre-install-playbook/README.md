@@ -11,7 +11,7 @@ Before running this playbook, take the following steps:
 * Verify that the user has sudoers privileges.
 * Be aware that the playbook makes modifications to the system unless it is run with the --check option.
 * The base inventory file that VIRK provides contains only localhost and will only run on the machine where it was installed. 
-To run the playbook on multiple machines, you can update the inventory file to include additional hosts. See [the Ansible Documentation](http://docs.ansible.com/ansible/latest/intro_inventory.html) for instructions.
+To run the playbook on multiple machines, you can update the inventory file to include additional hosts. See the [Ansible Documentation](http://docs.ansible.com/ansible/latest/intro_inventory.html) for instructions.
 
 ## Running the Playbook
 To run the playbook, execute the following command:
@@ -31,7 +31,7 @@ To run the playbook, execute the following command:
 SAS Technical Support does not provide support for the contents of this resource kit. However, you are welcome to submit issues and pull requests in GitHub.
 
 # Index of Tags for Requirement Checks within the Playbook
-To see a list of tasks you can run:
+To see a list of tasks that you can run:
   ```
   ansible-playbook viya_pre_install_playbook.yml -i inventory --list-tasks
   ```
