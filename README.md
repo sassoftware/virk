@@ -36,9 +36,6 @@ Each item included here in the resource kit will detail its specific pre-requisi
 
 As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansible/latest/intro_installation.html) is required for the Ansible playbooks contained in the Pre-Installation playbook section. A list of those playbooks is listed below in the [Index of tools](#index-of-tools) section.
 
-## Support
-While SAS Tech Support will not provide support for the content of this resource kit, issues and/or pull requests in GitHub are welcome.
-
 # Index of tools
 
 * Pre-Install Playbooks
