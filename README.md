@@ -39,6 +39,7 @@ As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansibl
 # Index of Tools
 
 * Pre-installation Playbooks
+
   * [Viya 3.2 Pre-Install Playbook](../viya-3.2/playbooks/pre-install-playbook)
   * [Viya 3.3 Pre-Install Playbook](../viya-3.3/playbooks/pre-install-playbook)
   * [Viya 3.4 Pre-Install Playbook](../viya-3.4/playbooks/pre-install-playbook)
