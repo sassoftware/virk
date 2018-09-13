@@ -5,7 +5,7 @@ The Service Management repository contains a set of playbooks to start or stop t
 
 ## Requirements for Running the Service Management Playbooks
 The Service Management playboooks require a successful SAS Viya deployment for 1 - n machines.
-* All services are in up status after the deployment has completed.
+* All services must have an Up status after the deployment has completed.
   See "Running the Playbooks" for instructions on listing the status of SAS Viya services.
 * The Service Management playbooks must be placed under the sas_viya_playbook directory where SAS Viya was deployed. 
   The directory structure of this project must be preserved.
