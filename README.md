@@ -1,6 +1,6 @@
 # SAS Viya Infrastructure Resource Kit (VIRK)
 
-Tools and utilities to help SAS customers with SAS Viya readiness.
+SAS VIRK provides interoperating tools and utilities to help SAS customers prepare for a SAS(R) Viya(R) deployment.
 
 ## License
 
@@ -8,11 +8,11 @@ Copyright (c) 2017-2018 by SAS Institute Inc., Cary, NC 27513 USA
 
 Licensed under the Apache License, Version 2.0 (the "License"); 
 you may not use this file except in compliance with the License. 
-You may obtain a copy of the License at
+You may obtain a copy of the license at
 
    http://www.apache.org/licenses/LICENSE-2.0
    
-And is also included in this repository here
+The license is also included in this repository here:
 
    [LICENSE](LICENSE)
 
@@ -22,23 +22,24 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and 
 limitations under the License.
 
-## Introduction
-* This collection of tools aims at automating and streamlining various aspects surrounding a Viya deployment.
-* These include:
+## Introduction to SAS VIRK
+VIRK is a collection of resources to automate and streamline tasks that are required to prepare an environment for a SAS Viya deployment.
+VIRK provides the following types of assistance:
 
-  * Pre-deployment assessment and/or configuration
+  * Pre-deployment assessment and optional configuration
   * Post-deployment automation
   * Post-deployment utilitites
   * Infrastructure templates
 
-## Pre-requisites for VIRK
-Each item included here in the resource kit will detail its specific pre-requisite and functionality.
+## Prerequisites for SAS VIRK
+Each item that is included in the resource kit will provide a document that describes its specific prerequisites and functionality.
 
-As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansible/latest/intro_installation.html) is required for the Ansible playbooks contained in the Pre-Installation playbook section. A list of those playbooks is listed below in the [Index of tools](#index-of-tools) section.
+As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansible/latest/intro_installation.html) is required to run  the Ansible playbooks that are included in the Pre-installation Playbooks section. A list of the available playbooks is provided below in the [Index of tools](#index-of-tools) section.
 
-# Index of tools
+# Index of Tools
 
-* Pre-Install Playbooks
+* Pre-installation Playbooks
+
   * [Viya 3.2 Pre-Install Playbook](../viya-3.2/playbooks/pre-install-playbook)
   * [Viya 3.3 Pre-Install Playbook](../viya-3.3/playbooks/pre-install-playbook)
   * [Viya 3.4 Pre-Install Playbook](../viya-3.4/playbooks/pre-install-playbook)
