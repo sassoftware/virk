@@ -31,7 +31,7 @@ VIRK provides the following types of assistance:
   * Post-deployment utilitites
   * Infrastructure templates
 
-## Prerequisites for VIRK
+## Prerequisites for SAS VIRK
 Each item that is included in the resource kit will provide a document that describes its specific prerequisites and functionality.
 
 As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansible/latest/intro_installation.html) is required to run  the Ansible playbooks that are included in the Pre-installation Playbooks section. A list of the available playbooks is provided below in the [Index of tools](#index-of-tools) section.
