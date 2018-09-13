@@ -12,7 +12,7 @@ The Service Management playboooks require a successful SAS Viya deployment for 1
   For example: ```sas_viya_playbook/virk/playbooks/service-management/```
 * The Service Management playbooks must be run from the same Ansible controller with SAS Viya deployment playbooks in place.
 * Multi-tenant deployments are not supported.
-* Verify that sas-viya-all-services is exempted from system reboot.
+* Verify that sas-viya-all-services is exempted from system reboots. This step prevents the script from executing automatically when the machine is restarted.
 
 ## Running the Playbooks
 To list the status of all SAS Viya services and URLs, execute:
