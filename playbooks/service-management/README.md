@@ -1,40 +1,42 @@
 # SAS Viya Infrastructure Resource Kit (VIRK) - Service Management Playbooks
 
 ## Introduction
-* This repository contains a set of playbooks to start/stop the SAS Viya Services gracefully over 1-n number of systems identified in the inventory.ini file
+The Service Management repository contains a set of playbooks to start or stop the SAS Viya services gracefully across the 1 - n machines that are identified in the inventory.ini file.
 
-## Requirements for running the service-management playbooks
-* Have a successful deployment for 1-n machines
-  - That means all services are in up status after deployment
-  - See below for how to list Viya services status
-* These scripts must be placed under the sas_viya_playbook directory where Viya was deployed. The directory structure of this project must be preserved.
-  - For example: ```sas_viya_playbook/virk/playbooks/service-management/```
-* Run from the same ansible controller with Viya playbooks in place
-* Multi-tenant is not supported
-* Make sure sas-viya-all-services is disabled from system reboot
+## Requirements for Running the Service Management Playbooks
+The Service Management playboooks require a successful SAS Viya deployment for 1 - n machines.
+* All services are in up status after the deployment has completed.
+  See "Running the Playbooks" for instructions on listing the status of SAS Viya services.
+* The Service Management playbooks must be placed under the sas_viya_playbook directory where SAS Viya was deployed. 
+  The directory structure of this project must be preserved.
+  For example: ```sas_viya_playbook/virk/playbooks/service-management/```
+* The Service Management playbooks must be run from the same Ansible controller with SAS Viya deployment playbooks in place.
+* Multi-tenant deployments are not supported.
+* Verify that sas-viya-all-services is exempted from system reboot.
 
-## Running the scripts
-To list all Viya services status and Viya urls, execute:
+## Running the Playbooks
+To list the status of all SAS Viya services and URLs, execute:
 ```
 ansible-playbook virk/playbooks/service-management/viya-services-status.yml
 ```
-To disable sas-viya-all-services from system reboot, execute:
+To exempt sas-viya-all-services from system reboot, execute:
 ```
 ansible-playbook virk/playbooks/service-management/viya-services-disable.yml
 ```
-To stop all the services gracefully, execute:
+To stop all services gracefully, execute:
 ```
 ansible-playbook virk/playbooks/service-management/viya-services-stop.yml
 ```
-To start all the services gracefully, execute:
+To start all services gracefully, execute:
 ```
 ansible-playbook virk/playbooks/service-management/viya-services-start.yml
 ```
-To restart all the services gracefully, execute:
+To restart all services gracefully, execute:
 ```
 ansible-playbook virk/playbooks/service-management/viya-services-restart.yml
 ```
 
 ## Support
-While SAS Tech Support will not provide support for the content of VIRK, issues and/or pull requests in GitHub are welcome.
+SAS Technical Support does not provide support for the contents of this resource kit. However, you are welcome to submit issues and pull requests in GitHub.
+
 
