@@ -8,7 +8,7 @@ It was inspired by [a blog post from Paul Homes](https://platformadmin.com/blogs
 The Home Directory Creator playbook modifies various sasauth files so that they call a script that triggers the creation of a user's home directory. This method should work for both SAS 9.x and SAS Viya.
 
 ## Prerequisites for Running the Home Directory Creator Playbook
-
+Before running this playbook, take the following steps:
 * Install Ansible. Version 2.3.2 is recommended.
 * Be aware that the playbook makes modifications to the system unless it is run with the ```--check``` option.
 * To run the playbook on multiple machines, you can update the inventory file to include additional hosts.
