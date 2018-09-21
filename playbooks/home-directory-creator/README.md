@@ -19,7 +19,7 @@ Before running this playbook, take the following steps:
 
 ## Running the Playbook
 
-To run the script, execute the following command:
+To run this playbook, execute the following command:
 ```
 ansible-playbook home-directory-creator.yml -i <your.inventory.ini>
 ```
