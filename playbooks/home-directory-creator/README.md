@@ -15,7 +15,7 @@ Before running this playbook, take the following steps:
   * See the [Ansible Documentation](http://docs.ansible.com/ansible/latest/intro_inventory.html) for instructions.
   * By default, this playbook will execute on all machines in the sas-all host group.
 * Do not use a softlink for sasauth in /etc/pam.d.
-* Review the list "sasauth_locations" in the vars section and verify it includes the auth files that you need.
+* Review the list "sasauth_locations" in the vars section and verify that it includes the auth files that you need.
 
 ## Running the Playbook
 To run the playbook, execute the following command:
