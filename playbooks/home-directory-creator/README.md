@@ -1,7 +1,7 @@
 # SAS Viya Infrastructure Resource Kit (VIRK) - Home Directory Creator Playbook
 
 ## Introduction
-This playbook enables the automatic creation of user home directories in SAS 9.x and SAS Viya environments. home directories are required for SAS Studio users, as well as for users of multiple SAS 9 applications.
+This playbook enables the automatic creation of user home directories in SAS 9.x and SAS Viya environments. Home directories are required for SAS Studio users as well as for users of multiple SAS 9 applications.
 
 It was inspired by [this blog post from Paul Homes](https://platformadmin.com/blogs/paul/2017/04/sas-user-linux-home-dir-auto-creation/). (Read the post for some background information.)
 
