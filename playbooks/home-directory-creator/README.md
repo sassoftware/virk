@@ -10,7 +10,7 @@ The Home Directory Creator playbook modifies various sasauth files so that they 
 ## Prerequisites for Running the Home Directory Creator Playbook
 Before running this playbook, take the following steps:
 * Install Ansible. Version 2.3.2 is recommended.
-* Be aware that the playbook makes modifications to the system unless it is run with the --check option.
+* Be aware that the playbook makes modifications to the system unless it is run with the ```--check``` option.
 * To run the playbook on multiple machines, you can update the inventory file to include additional hosts.
   * See the [Ansible Documentation](http://docs.ansible.com/ansible/latest/intro_inventory.html) for instructions.
   * By default, this playbook will execute on all machines in the sas-all host group.
@@ -25,7 +25,7 @@ ansible-playbook home-directory-creator.yml -i <your.inventory.ini>
 
 ## Useful Optional Arguments
 * ```--check```: Executes a "dry run" of the playbook. Runs the playbook without making changes to the system. Any modules that are instrumented to support "check mode" will report the changes that they would have made rather than make them.
-* ```-v through -vvvv```: Lets you increase the verbosity of the script output; ```-vvvv``` enables connection debugging.
+* ```-v``` through ```-vvvv```: Lets you increase the verbosity of the script output; ```-vvvv``` enables connection debugging.
 * ```-i <host-inventory-file>```: Lets you use a different host inventory file instead of the default /etc/ansible/host file.
 * ```--tags <tag-name>```: Runs only task(s) with specific tag(s).
 * ```--skip-tags <tag-name>```: Skips task(s) with specific tag(s).
