@@ -27,10 +27,10 @@
     assert:
       that:
         - ( ansible_memory_mb.real.total | int ) >= ( min_mem_mb | int )
-      msg:
-        - "This server should have at least {{(min_mem_mb | int) / 1000}} GB of total memory."
-        - "It only has {{( ansible_memory_mb.real.total | int) / 1000}} GB."
-        - "Add --skip-tags skipmemfail to bypass"
+      msg: |
+        This server should have at least {{(min_mem_mb | int) / 1000}} GB of total memory.
+        It only has {{( ansible_memory_mb.real.total | int) / 1000}} GB.
+        Add --skip-tags skipmemfail to bypass.
     tags:
       - skipifbelowspecs
       - skipmemfail
