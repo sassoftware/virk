@@ -16,11 +16,10 @@
       that:
         # the OS is redhat or SUSE
         - ansible_os_family == redhat_os_name or ansible_os_family == suse_os_name 
-      msg:
-        - "The OS of this server is not supported."
-        - "Viya requires {{redhat_os_name}} {{os_major_version_1}} or {{os_major_version_2}}, (at least {{os_major_minor_version_1}} or {{os_major_minor_version_2}} ) "
-        - "or {{suse_os_name}} at least version {{suse_os_major_minor_version}}"
-        - "You seem to have {{ansible_os_family}} {{ansible_distribution_version}}"
+      msg: |
+        The OS of this server is not supported.
+        Viya requires {{redhat_os_name}} {{os_major_version_1}} or {{os_major_version_2}}, (at least {{os_major_minor_version_1}} or {{os_major_minor_version_2}} ) or {{suse_os_name}} at least version {{suse_os_major_minor_version}}
+        You seem to have {{ansible_os_family}} {{ansible_distribution_version}}
 
   - name: Ensure that the Operating System version is supported when on RedHat (this includes Oracle Linux)
     assert:
@@ -37,10 +36,10 @@
           (ansible_distribution_major_version | version_compare(os_major_version_2, '==')
           and
           ansible_distribution_version | version_compare(os_major_minor_version_2, '>='))
-      msg:
-        - "The OS of this server is not supported."
-        - "Viya requires {{redhat_os_name}} {{os_major_version_1}} or {{os_major_version_2}}, (at least {{os_major_minor_version_1}} or {{os_major_minor_version_2}} ) "
-        - "You seem to have {{ansible_os_family}} {{ansible_distribution_version}}"
+      msg: |
+        The OS of this server is not supported.
+        Viya requires {{redhat_os_name}} {{os_major_version_1}} or {{os_major_version_2}}, (at least {{os_major_minor_version_1}} or {{os_major_minor_version_2}} )
+        You seem to have {{ansible_os_family}} {{ansible_distribution_version}}
     when: ansible_os_family == redhat_os_name
 
   - name: Ensure that the Operating System version is supported when on Suse
@@ -48,10 +47,10 @@
       that:
         # version is at least 12.2
         - ansible_distribution_version | version_compare(suse_os_major_minor_version, '>=')
-      msg:
-        - "The OS of this server is not supported."
-        - "Viya requires {{suse_os_name}} at least version {{suse_os_major_minor_version}}"
-        - "You seem to have {{ansible_os_family}} {{ansible_distribution_version}}"
+      msg: |
+        The OS of this server is not supported.
+        Viya requires {{suse_os_name}} at least version {{suse_os_major_minor_version}}
+        You seem to have {{ansible_os_family}} {{ansible_distribution_version}}
     when: ansible_os_family == suse_os_name
 
   tags:

@@ -36,10 +36,10 @@
     assert:
       that:
         - (cpuinfo.stdout | int) >= (min_cores_num | int)
-      msg:
-        - "This server should have at least ({{min_cores_num}}) cores."
-        - "It only has {{(cpuinfo.stdout | int)}} core(s)."
-        - "Add --skip-tags skipcoresfail to bypass."
+      msg: |
+        This server should have at least ({{min_cores_num}}) cores.
+        It only has {{(cpuinfo.stdout | int)}} core(s).
+        Add --skip-tags skipcoresfail to bypass.
     tags:
       - skipifbelowspecs
       - skipcoresfail
