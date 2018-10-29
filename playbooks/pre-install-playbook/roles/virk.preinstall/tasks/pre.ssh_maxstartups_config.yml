@@ -109,10 +109,10 @@
       assert:
         that:
           - sshd_validation_results.rc is defined and sshd_validation_results.rc == 0
-        msg:
-          - "It seems that something went wrong with the file /etc/ssh/sshd_config"
-          - "You should review the MaxStartups line, and correct it"
-          - "Do NOT restart the sshd service until the command 'sshd -T' returns a clean output"
+        msg: |
+          It seems that something went wrong with the file /etc/ssh/sshd_config.
+          You should review the MaxStartups line, and correct it.
+          Do NOT restart the sshd service until the command 'sshd -T' returns a clean output.
       when: sshd_validation_results.rc is defined
 
     when: cur_maxstartups_3 is defined and ((cur_maxstartups_3.stdout | int) < maxstartups_val|int)
