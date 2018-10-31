@@ -29,7 +29,7 @@ To run the playbook, execute the following command:
 ## Support
 SAS Technical Support does not provide support for the contents of this resource kit. However, you are welcome to submit issues and pull requests in GitHub.
 
-# Index of Tags for Requirement Checks within the Playbook
+## Index of Tags for Requirement Checks within the Playbook
 To see a list of tasks you can run:
   ```
   ansible-playbook viya_pre_install_playbook.yml -i inventory --list-tasks
