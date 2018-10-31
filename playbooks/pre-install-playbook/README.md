@@ -10,7 +10,7 @@ Before running this playbook, take the following steps:
 * Install Ansible. Version 2.3.2 or later is recommended.
 * Make sure that the user has sudoers privileges.
 * Be aware that the scripts make modifications to the system unless they are run with the --check option.
-* The base inventory file that VIRK provides contains only localhost and will only run on the machine where it was installed. To run the playbook on multiple machines, you can update the inventory file to include additional hosts. See the [Ansible Documentation](http://docs.ansible.com/ansible/latest/intro_inventory.html) for instructions.
+* The base inventory file that VIRK provides contains only localhost and will run only on the machine where it was installed. To run the playbook on multiple machines, you can update the inventory file to include additional hosts. See the [Ansible Documentation](http://docs.ansible.com/ansible/latest/intro_inventory.html) for instructions.
 
 ## Running the Playbook
 To run the playbook, execute the following command:
