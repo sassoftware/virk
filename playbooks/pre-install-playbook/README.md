@@ -1,4 +1,4 @@
-# SAS Viya Infrastructure Resource Kit (VIRK) - Pre-Install Playbook
+# SAS Viya Infrastructure Resource Kit (VIRK) - Pre-installation Playbook
 
 ## Introduction
 This playbook verifies and optionally performs many of the tasks that are required to prepare the environment for a typical SAS Viya deployment.
