@@ -33,9 +33,9 @@ SAS Technical Support does not provide support for the contents of this resource
 # Index of Tags for Requirement Checks within the Playbook
 To see a list of tasks that you can run:
   ```
-  ansible-playbook viya_pre_install_playbook.yml -i inventory --list-tasks
+  ansible-playbook viya_pre_install_playbook.yml -i pre-install.inventory.ini --list-tasks
   ```
 Here's an example of running only a specific check or configuration:
   ```
-  ansible-playbook viya_pre_install_playbook.yml -i inventory --tags memory_check
+  ansible-playbook viya_pre_install_playbook.yml -i pre-install.inventory.ini --tags memory_check
   ```
