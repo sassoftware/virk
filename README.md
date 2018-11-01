@@ -45,4 +45,4 @@ SAS Technical Support does not provide support for the contents of this resource
 * [Pre-installation Playbook](playbooks/pre-install-playbook)
 * [Home Directory Creator Playbook](playbooks/home-directory-createor)
 * [SAS Data Server Utility Script](utilities/postgres/viya)
-* [Service Management Playbook](playbooks/service-management)
+* [Viya Multi-Machine Services Utilities](playbooks/viya-mmsu)
