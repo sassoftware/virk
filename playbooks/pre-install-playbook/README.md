@@ -16,7 +16,7 @@ To run the playbook on multiple machines, you can update the inventory file to i
 ## Running the Playbook
 To run the playbook, execute the following command:
   ```
-  ansible-playbook viya_pre_install_playbook.yml -i inventory
+  ansible-playbook viya_pre_install_playbook.yml -i pre-install.inventory.ini
   ```
 
 ## Useful Optional Arguments
