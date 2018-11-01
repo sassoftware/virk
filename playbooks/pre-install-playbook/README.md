@@ -14,7 +14,7 @@ Before running this script you will need to:
 ## Running the script
 To run the script, execute on the command line:
   ```
-  ansible-playbook viya_pre_install_playbook.yml -i inventory
+  ansible-playbook viya_pre_install_playbook.yml -i pre_install.inventory.ini
   ```
 
 ## Useful optional arguments
