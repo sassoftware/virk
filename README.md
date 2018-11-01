@@ -48,4 +48,4 @@ As an example, a functioning [Ansible Controller](http://docs.ansible.com/ansibl
   * [Viya 3.4 Home Directory Creator Playbook](../viya-3.4/playbooks/home-directory-creator)
 * Utilities
   * [SAS DataServer Utility Script](../viya-3.4/utilities/postgres/viya)
-  * [Service Management Playbook](../viya-3.4/playbooks/service-management)
+  * [Viya Multi-Machine Services Utilities](../viya-3.4/playbooks/viya-mmsu)
