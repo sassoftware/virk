@@ -15,7 +15,7 @@ Before running this playbook, take the following steps:
 ## Running the Playbook
 To run the playbook, execute the following command:
   ```
-  ansible-playbook viya_pre_install_playbook.yml -i inventory
+  ansible-playbook viya_pre_install_playbook.yml -i pre_install.inventory.ini
   ```
 
 ## Useful Optional Arguments
