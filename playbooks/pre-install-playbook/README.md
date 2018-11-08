@@ -25,9 +25,6 @@ To run the script, execute on the command line:
 * ```--skip-tags <tag-name>```: Skip task(s) with specific tag(s)
 * ```--list-tasks```: Display all tags in a playbook
 
-## Support
-While SAS Tech Support will not provide support for the content of VIRK, issues and/or pull requests in GitHub are welcome.
-
 # Index of tags for individual requirement checks within the playbook
 To see a list of tasks you can run:
   ```
