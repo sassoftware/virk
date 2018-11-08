@@ -32,7 +32,3 @@ To restart all the services gracefully, execute:
 ```
 ansible-playbook virk/playbooks/viya-mmsu/viya-services-restart.yml
 ```
-
-## Support
-While SAS Tech Support will not provide support for the content of VIRK, issues and/or pull requests in GitHub are welcome.
-
