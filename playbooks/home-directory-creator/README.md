@@ -39,6 +39,3 @@ These specific tags run the code that perform the home directory configuration c
 * service
 * script
 * authfilemodif
-
-## Support
-While SAS Tech Support will not provide support for the content of VIRK, issues and/or pull requests in GitHub are welcome.
