@@ -26,9 +26,6 @@ To run the playbook, execute the following command:
 * ```--skip-tags <tag-name>```: Skips task(s) with specific tag(s).
 * ```--list-tasks```: Displays all tags in a playbook.
 
-## Support
-SAS Technical Support does not provide support for the contents of this resource kit. However, you are welcome to submit issues and pull requests in GitHub.
-
 # Index of Tags for Requirement Checks within the Playbook
 To see a list of tasks that you can run:
   ```
