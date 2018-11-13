@@ -25,11 +25,11 @@
     assert:
       that:
         - var_cache_yum_actual.stdout | int > yum_cache_min_space_mb | int
-      msg:
-        - "There is only {{var_cache_yum_actual.stdout | int}} MB available for YUM cache."
-        - "You need at least {{yum_cache_min_space_mb}} MB"
-        - "Either add more space or set the yum_cache_yn to 0."
-        - "Add --skip-tags skipyumspacefail to bypass"
+      msg: |
+        There is only {{var_cache_yum_actual.stdout | int}} MB available for YUM cache.
+        You need at least {{yum_cache_min_space_mb}} MB.
+        Either add more space or set the yum_cache_yn to 0.
+        Add --skip-tags skipyumspacefail to bypass.
     tags:
       - skipifbelowspecs
       - skipyumspacefail

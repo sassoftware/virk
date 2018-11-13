@@ -34,10 +34,10 @@
     assert:
       that:
         - item.stat.exists and (item.stat.isdir or item.stat.islnk)
-      msg:
-        - "The directory {{item.item.path}} does not exist on this server."
-        - "Edit the storage_list variable if this is a mistake."
-        - "Or add --skip-tags skipstoragefail to bypass"
+      msg: |
+        The directory {{item.item.path}} does not exist on this server.
+        Edit the storage_list variable if this is a mistake.
+        Or add --skip-tags skipstoragefail to bypass.
     with_items:
       - "{{directories_exists.results}}"
     tags:
@@ -58,11 +58,11 @@
     assert:
       that:
         - (item.stdout | int) >= (item.item.item.min_storage_mb | int)
-      msg:
-      - "The directory {{item.item.item.path}} only has {{(item.stdout | int) / 1000}} GB of free space."
-      - "It should have at least {{(item.item.item.min_storage_mb | int) / 1000}} GB."
-      - "Edit storage_list if this is a mistake."
-      - "Or add --skip-tags skipstoragefail to bypass"
+      msg: |
+        The directory {{item.item.item.path}} only has {{(item.stdout | int) / 1000}} GB of free space.
+        It should have at least {{(item.item.item.min_storage_mb | int) / 1000}} GB.
+        Edit the storage_list variable if this is a mistake.
+        Or add --skip-tags skipstoragefail to bypass.
     with_items:
       - "{{df_result.results}}"
     tags:
