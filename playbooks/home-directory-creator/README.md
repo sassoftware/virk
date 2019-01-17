@@ -41,5 +41,4 @@ These specific tags run the code that performs the home directory configuration 
 * script
 * authfilemodif
 
-## Support
-SAS Technical Support does not provide support for the contents of this resource kit. However, you are welcome to submit issues and pull requests in GitHub.
+

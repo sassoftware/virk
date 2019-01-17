@@ -15,7 +15,7 @@ Before running this playbook, take the following steps:
 ## Running the Playbook
 To run the playbook, execute the following command:
   ```
-  ansible-playbook viya_pre_install_playbook.yml -i inventory
+  ansible-playbook viya_pre_install_playbook.yml -i pre-install.inventory.ini
   ```
 
 ## Useful Optional Arguments
@@ -26,15 +26,12 @@ To run the playbook, execute the following command:
 * ```--skip-tags <tag-name>```: Skips task(s) with specific tag(s).
 * ```--list-tasks```: Displays all tags in a playbook.
 
-## Support
-SAS Technical Support does not provide support for the contents of this resource kit. However, you are welcome to submit issues and pull requests in GitHub.
-
-## Index of Tags for Requirement Checks within the Playbook
+# Index of tags for individual requirement checks within the playbook
 To see a list of tasks you can run:
   ```
-  ansible-playbook viya_pre_install_playbook.yml -i inventory --list-tasks
+  ansible-playbook viya_pre_install_playbook.yml -i pre-install.inventory.ini --list-tasks
   ```
 Here's an example of running only a specific check or configuration:
   ```
-  ansible-playbook viya_pre_install_playbook.yml -i inventory --tags memory_check
+  ansible-playbook viya_pre_install_playbook.yml -i pre-install.inventory.ini --tags memory_check
   ```
