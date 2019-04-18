@@ -1,4 +1,14 @@
-# SAS Viya Infrastructure Resource Kit (VIRK)
+# SAS Viya Infrastructure Resource Kit (VIRK) [DEPRECATED]
+
+## DEPRECATION NOTICE
+
+`This github repository has been deprecated.  In the very near future, this repository will no longer be updated.`  
+
+`A replacement repository is available.  Please visit https://github.com/sassoftware/viya-ark for SAS Viya 3.4 or later releases of SAS Viya.`
+
+`Customers currently deploying SAS Viya 3.4 are recommended to begin using the new replacement repository immediately.`  
+
+`Any issues related to SAS Viya Administration Resource Kit (SAS Viya-ARK) should be submitted against the new repository using https://github.com/sassoftware/viya-ark/issues.`
 
 SAS VIRK provides interoperating tools and utilities to help SAS customers prepare for a SAS(R) Viya(R) deployment.
 
