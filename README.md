@@ -6,7 +6,7 @@
 
 `A replacement repository is available.  Please visit https://github.com/sassoftware/viya-ark for SAS Viya 3.4 or later releases of SAS Viya.`
 
-`Customer currently deploying SAS Viya 3.4 are recommended to being using the new replacement repository immediately.`  
+`Customers currently deploying SAS Viya 3.4 are recommended to begin using the new replacement repository immediately.`  
 
 `Any issues related to SAS Viya Administration Resource Kit (SAS Viya-ARK) should be submitted against the new repository using https://github.com/sassoftware/viya-ark/issues.`
 
