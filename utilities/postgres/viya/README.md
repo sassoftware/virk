@@ -1,7 +1,7 @@
-# SAS Viya Infrastructure Resource Kit (VIRK) - Connection Test Script
+# SAS Viya Administration Resource Kit (Viya-ARK) - Connection Test Script
 
 ## Introduction
-VIRK provides a utility that supports the deployment of the SAS Infrastructure Data Server component of SAS Viya. SAS Infrastructure Data Server is a PostgreSQL server that stores user data. 
+Viya-ARK provides a utility that supports the deployment of the SAS Infrastructure Data Server component of SAS Viya. SAS Infrastructure Data Server is a PostgreSQL server that stores user data. 
 
 This utility, a shell script named **sds_micro_service_pg_connection_test.sh**, gets a connection or session count per microservice for a given cluster in the SAS Viya environment. 
 

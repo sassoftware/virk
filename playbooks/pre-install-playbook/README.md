@@ -1,16 +1,21 @@
-# SAS Viya Infrastructure Resource Kit (VIRK) - Pre-installation Playbook
+# SAS Viya Administration Resource Kit (Viya-ARK) - Pre-installation Playbook
 
 ## Introduction
 This playbook verifies and optionally performs many of the tasks that are required to prepare the environment for a typical SAS Viya deployment.
 
 Use this playbook to prepare for a deployment of SAS Viya 3.4.
 
+This playbook does not require you to provide the details of your software Order.  It will therefore apply all usual pre-reqs for Visual Analytics, Visual Statistics, and Visual Data Mining and Machine Learning, on all machines, regardless of their role. 
+
+At this time, the playbook will only perform some of the pre-requisites for Visual Investigator. Work is under-way to finalize this. 
+
+
 ## Prerequisites for Running the Pre-installation Playbook
 Before running this playbook, take the following steps:
 * Install Ansible. Version 2.4.1 or later is recommended.
 * Verify that the user has sudoers privileges.
 * Be aware that the playbook makes modifications to the system unless it is run with the --check option.
-* The base inventory file that VIRK provides contains only localhost and will only run on the machine where it was installed. 
+* The base inventory file that Viya-ARK provides contains only localhost and will only run on the machine where it was installed. 
 To run the playbook on multiple machines, you can update the inventory file to include additional hosts. See the [Ansible Documentation](http://docs.ansible.com/ansible/latest/intro_inventory.html) for instructions.
 
 ## Running the Playbook
